@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Интеграции — WorkHere</title>
+    <style>
+      @font-face { font-family: "Exo 2"; src: url("Шрифты/exo2_0_regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Exo 2"; src: url("Шрифты/exo2_0_bold.otf") format("opentype"); font-weight: 700; }
+      @font-face { font-family: "Exo 2"; src: url("Шрифты/exo2_0_extrabold.otf") format("opentype"); font-weight: 800; }
+
+      :root {
+        --ink: #0c1630;
+        --cream: #fffdf7;
+        --blue: #188bf4;
+        --space: #061942;
+        --cyan: #68dfe9;
+        --yellow: #ffe16c;
+        --pink: #f5a2cf;
+        --mint: #69e8a0;
+        --line: rgba(12, 22, 48, .13);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; min-width: 320px; color: var(--ink); background: var(--cream); font-family: "Exo 2", Arial, sans-serif; }
+      button, a { font: inherit; }
+      button { cursor: pointer; }
+
+      .site-header { width: min(1260px, calc(100% - 48px)); height: 76px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 26px; }
+      .brand { color: var(--ink); font-size: 25px; font-weight: 800; text-decoration: none; letter-spacing: -1.6px; }
+      .brand span { color: var(--blue); }
+      .nav { display: flex; align-items: center; gap: 28px; font-size: 13px; }
+      .nav a { color: var(--ink); text-decoration: none; }
+      .header-actions { display: flex; align-items: center; gap: 18px; font-size: 13px; }
+      .login { color: var(--ink); text-decoration: none; }
+      .demo { border: 0; border-radius: 99px; padding: 13px 23px; color: #fff; background: var(--blue); font-weight: 700; box-shadow: 0 8px 18px rgba(24, 139, 244, .23); }
+
+      .hero { width: 100%; min-height: 690px; margin: 0; padding: 0; position: relative; overflow: hidden; border-radius: 0; color: white; background: var(--space); isolation: isolate; }
+      .hero::before { content: ""; position: absolute; z-index: -1; inset: 0; opacity: .65; background: linear-gradient(125deg, transparent 3%, #123477 3% 27%, transparent 27% 46%, #113169 46% 72%, transparent 72%), radial-gradient(circle at 70% 40%, #2451a5 0 2%, transparent 22%), #061942; }
+      .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .35; background-image: radial-gradient(white 1.2px, transparent 1.3px), radial-gradient(white .7px, transparent .8px); background-position: 10px 18px, 44px 86px; background-size: 85px 85px, 58px 58px; }
+      .hero-frame { width: min(1720px, calc(100% - 96px)); min-height: 690px; margin: 0 auto; padding: 68px 0 50px; position: relative; }
+      .hero-copy { width: min(590px, 38%); position: relative; z-index: 3; }
+      .eyebrow { margin: 0 0 14px; color: #9bc6ff; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { margin-bottom: 20px; font-size: clamp(48px, 5.2vw, 76px); font-weight: 800; line-height: .93; letter-spacing: -3.8px; }
+      h1 span { color: #1d9cff; }
+      .hero-copy p { max-width: 460px; margin-bottom: 30px; font-size: 18px; line-height: 1.38; }
+      .cta { display: inline-flex; align-items: center; gap: 12px; padding: 16px 23px; border: 0; border-radius: 12px; color: #fff; background: var(--blue); font-weight: 700; box-shadow: 0 12px 28px rgba(0, 0, 0, .16); }
+      .cta::after { content: "→"; font-size: 21px; line-height: 0; }
+      .hero-copy .cta { min-height: 66px; padding: 18px 32px; border: 1px solid rgba(154,220,255,.9); border-radius: 16px; color: #fff; background: linear-gradient(135deg, rgba(38,154,255,.5), rgba(89,218,255,.17)); font-size: 18px; box-shadow: inset 0 1px 0 rgba(255,255,255,.38), 0 0 0 1px rgba(100,204,255,.18), 0 0 28px rgba(53,177,255,.42), 0 15px 26px rgba(0,10,46,.24); backdrop-filter: blur(9px); transition: transform .25s ease, background .25s ease, box-shadow .25s ease; }
+      .hero-copy .cta::after { font-size: 25px; }
+      .hero-copy .cta:hover, .hero-copy .cta:focus-visible { transform: translateY(-3px); background: linear-gradient(135deg, rgba(38,154,255,.7), rgba(89,218,255,.29)); box-shadow: inset 0 1px 0 rgba(255,255,255,.48), 0 0 36px rgba(71,192,255,.58), 0 18px 30px rgba(0,10,46,.3); outline: none; }
+
+      .orbit-system { position: absolute; right: 0; top: 26px; width: min(57vw, 820px); height: 510px; }
+      .orbit { position: absolute; left: 50%; top: 50%; border: 1px solid rgba(255, 255, 255, .34); border-radius: 50%; transform: translate(-50%, -50%) rotate(-14deg); }
+      .orbit.one { width: 82%; height: 46%; }
+      .orbit.two { width: 63%; height: 78%; transform: translate(-50%, -50%) rotate(19deg); }
+      .orbit.three { width: 44%; height: 100%; transform: translate(-50%, -50%) rotate(-30deg); }
+      .cat { position: absolute; left: 48%; top: 46%; width: 330px; transform: translate(-50%, -50%) rotate(-3deg); filter: drop-shadow(0 18px 19px rgba(0, 0, 0, .24)); animation: float 5s ease-in-out infinite; }
+      @keyframes float { 50% { transform: translate(-50%, -53%) rotate(2deg); } }
+      .planet { position: absolute; display: grid; width: 112px; height: 112px; place-items: center; border: 0; border-radius: 50%; color: var(--ink); font-size: 13px; font-weight: 800; text-align: center; line-height: 1.03; overflow: visible; box-shadow: inset -17px -20px 0 rgba(7,23,58,.14), 0 11px 24px rgba(0,0,0,.18); transition: transform .25s, box-shadow .25s; }
+      .planet:hover, .planet:focus-visible { transform: scale(1.12) rotate(3deg); outline: none; box-shadow: inset -17px -20px 0 rgba(7,23,58,.14), 0 0 0 5px rgba(255,255,255,.33), 0 15px 27px rgba(0,0,0,.23); }
+      .planet::before { content: ""; position: absolute; width: 54%; height: 20%; left: 14%; top: 15%; border-radius: 50%; background: rgba(255,255,255,.34); transform: rotate(-28deg); }
+      .planet::after { content: ""; position: absolute; width: 18%; height: 18%; right: 18%; bottom: 18%; border-radius: 50%; background: rgba(7,23,58,.13); box-shadow: -34px 12px 0 -2px rgba(255,255,255,.17), -18px 32px 0 -3px rgba(7,23,58,.1); }
+      .planet small { display: block; max-width: 82%; position: relative; font-size: 15px; letter-spacing: .025em; text-transform: uppercase; }
+      .planet.messenger { top: 2%; left: 7%; width: 142px; height: 142px; background: radial-gradient(circle at 33% 25%, #c3fbff 0 8%, transparent 9%), radial-gradient(circle at 63% 62%, #38bdd2 0 10%, transparent 11%), linear-gradient(145deg, #86edf2, #46c3d5); }
+      .planet.mail { top: 42%; left: 7%; width: 96px; height: 96px; background: radial-gradient(circle at 70% 35%, #fff5a5 0 9%, transparent 10%), radial-gradient(circle at 35% 67%, #e5bb41 0 11%, transparent 12%), linear-gradient(145deg, #ffef98, #f3cf5a); }
+      .planet.calendar { right: -2%; top: 5%; width: 124px; height: 124px; background: radial-gradient(circle at 66% 30%, #ffd1e6 0 9%, transparent 10%), radial-gradient(circle at 32% 66%, #d76da9 0 13%, transparent 14%), linear-gradient(145deg, #f6afd2, #e981bc); }
+      .planet.phone { right: -1%; bottom: 2%; width: 112px; height: 112px; background: radial-gradient(circle at 68% 32%, #c9edff 0 8%, transparent 9%), radial-gradient(circle at 35% 67%, #3b91dd 0 13%, transparent 14%), linear-gradient(145deg, #7bd1ff, #4ea9ed); }
+      .planet.crm { left: 25%; bottom: -9%; width: 160px; height: 160px; background: radial-gradient(circle at 66% 30%, #c7caff 0 8%, transparent 9%), radial-gradient(circle at 32% 67%, #6371d1 0 13%, transparent 14%), linear-gradient(145deg, #a1a9ff, #7783e9); }
+      .planet.crm::after { width: 152%; height: 35%; right: -27%; bottom: 27%; z-index: -1; border: 3px solid #d9e6ff; background: transparent; box-shadow: none; transform: rotate(-18deg); }
+      .planet { overflow: visible; background: transparent !important; box-shadow: none; animation: hero-planet-float 6s ease-in-out infinite; }
+      .planet::before, .planet::after { display: none; }
+      .planet:hover, .planet:focus-visible { animation-play-state: paused; transform: translateY(-8px) scale(1.08) rotate(var(--hero-tilt, 0deg)); box-shadow: none; }
+      .hero-planet-art { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 16px rgba(0,0,0,.25)); }
+      .planet small { position: absolute; z-index: 2; top: calc(100% + 7px); left: 50%; width: max-content; max-width: 150%; color: #fff; font-size: 15px; text-shadow: 0 2px 7px rgba(0,0,0,.42); transform: translateX(-50%); }
+      .planet.messenger { width: 142px; height: 142px; --hero-tilt: -4deg; animation-delay: -1.4s; }
+      .planet.calendar { width: 172px; height: 172px; --hero-tilt: 3deg; animation-delay: -3.2s; }
+      .planet.mail { width: 132px; height: 132px; --hero-tilt: -2deg; animation-delay: -4.6s; }
+      .planet.crm { width: 152px; height: 152px; --hero-tilt: 4deg; animation-delay: -2.4s; }
+      .planet.phone { width: 116px; height: 116px; --hero-tilt: -3deg; animation-delay: -5.2s; }
+      @keyframes hero-planet-float { 0%,100% { transform: translateY(0) rotate(var(--hero-tilt, 0deg)); } 50% { transform: translateY(-13px) rotate(calc(var(--hero-tilt, 0deg) + 3deg)); } }
+      .hero-doodle { position: absolute; z-index: 2; font-size: 40px; font-weight: 400; transform: rotate(-18deg); }
+      .doodle-1 { right: 7%; top: 8%; }.doodle-2 { right: 2%; bottom: 5%; }.doodle-3 { left: 47%; top: 8%; }
+      @media (min-width: 1600px) {
+        .hero-frame { width: min(1900px, calc(100% - 96px)); }
+        .orbit-system { top: 14px; width: 1100px; height: 560px; }
+        .cat { left: 50%; top: 47%; width: 350px; }
+        .planet.messenger { left: 2%; }
+        .planet.mail { left: 1%; }
+        .planet.crm { bottom: -6%; }
+      }
+
+      .jobs-marquee { width: 100%; margin: 28px 0 0; padding: 32px 0; position: relative; overflow: hidden; background: #fff; border-top: 1px solid rgba(12,22,48,.06); border-bottom: 1px solid rgba(12,22,48,.06); box-shadow: 0 12px 26px rgba(12,22,48,.05); }
+      .marquee-inner { width: 100%; display: grid; grid-template-columns: clamp(126px, 10vw, 170px) minmax(0, 1fr); align-items: center; gap: clamp(18px, 2.5vw, 48px); padding: 0 clamp(22px, 4vw, 76px); }
+      .marquee-label { color: #17233c; font-size: clamp(14px, 1.05vw, 18px); font-weight: 700; line-height: 1.12; text-align: left; }
+      .tracks { width: 100%; min-width: 0; display: grid; gap: 14px; }
+      .marquee-lane { width: 100%; overflow: hidden; }
+      .track { display: flex; width: max-content; min-height: 30px; align-items: center; white-space: nowrap; will-change: transform; }
+      .track-group { display: flex; flex: 0 0 auto; align-items: center; gap: clamp(34px, 3vw, 68px); padding-right: clamp(34px, 3vw, 68px); }
+      .track span { flex: 0 0 auto; display: block; color: #17233c; font-size: clamp(15px, 1.25vw, 20px); font-weight: 700; line-height: 1.1; letter-spacing: -.2px; }
+      .track.forward { animation: marquee-right 34s linear infinite; }
+      .track.backward { animation: marquee-left 38s linear infinite; }
+      @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+      @keyframes marquee-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      @media (prefers-reduced-motion: reduce) { .track.forward, .track.backward { animation: none; transform: none; } }
+
+      .journey { width: 100%; margin: 28px 0 0; padding: 110px max(48px, calc((100% - 1680px) / 2)) 118px; position: relative; overflow: hidden; isolation: isolate; color: #fff; background: #061942; }
+      .journey::before { content: ""; position: absolute; z-index: -2; inset: 0; opacity: .72; background: linear-gradient(125deg, transparent 3%, #123477 3% 27%, transparent 27% 46%, #113169 46% 72%, transparent 72%), radial-gradient(circle at 70% 40%, #2451a5 0 2%, transparent 22%), #061942; }
+      .journey::after { content: ""; position: absolute; z-index: -1; inset: 0; opacity: .4; background-image: radial-gradient(white 1.2px, transparent 1.3px), radial-gradient(white .7px, transparent .8px); background-position: 10px 18px, 44px 86px; background-size: 85px 85px, 58px 58px; }
+      .journey-heading { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 60px; align-items: end; margin-bottom: 64px; }
+      h2 { margin: 0; max-width: 720px; font-size: clamp(46px, 5.7vw, 82px); font-weight: 800; line-height: .9; letter-spacing: -4px; }
+      h2 span { color: var(--blue); }
+      .journey h2 { max-width: 1100px; color: #fff; }.journey h2 span { white-space: nowrap; }.journey-heading p { margin: 0; color: rgba(255,255,255,.85); font-size: 18px; line-height: 1.35; }
+
+      .mission { min-height: 650px; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(440px, 520px); align-items: stretch; gap: clamp(46px, 6vw, 120px); padding: 22px 0 0; }
+      .solar-system { min-height: 620px; position: relative; overflow: visible; background: radial-gradient(ellipse at 51% 51%, rgba(190,232,255,.28), rgba(236,248,255,.1) 31%, transparent 65%); }
+      .solar-system::before, .solar-system::after { content: ""; position: absolute; z-index: 0; inset: 12% 2%; border: 1px solid rgba(144,210,255,.35); border-radius: 50%; transform: rotate(1deg); }.solar-system::after { inset: 25% 15%; transform: rotate(-17deg); }
+      .orbit-line { position: absolute; z-index: 0; border: 1px solid rgba(144,210,255,.44); border-radius: 50%; }.orbit-line.one { width: 96%; height: 64%; left: 1%; top: 19%; transform: rotate(-2deg); }.orbit-line.two { width: 68%; height: 43%; left: 16%; top: 30%; transform: rotate(8deg); }.orbit-line.three { width: 83%; height: 78%; left: 8%; top: 10%; transform: rotate(-19deg); }.orbit-line.four { width: 56%; height: 88%; left: 22%; top: 5%; transform: rotate(23deg); }.orbit-line.five { width: 74%; height: 54%; left: 13%; top: 24%; transform: rotate(-31deg); }
+      .workhere-planet { width: clamp(230px, 23vw, 330px); aspect-ratio: 1; position: absolute; left: 50%; top: 51%; z-index: 2; display: grid; place-items: center; border-radius: 50%; color: #fff; text-align: center; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 30% 22%, rgba(255,255,255,.35) 0%, rgba(255,255,255,.12) 14%, transparent 31%), radial-gradient(circle at 32% 24%, #249fff 0%, #137de9 48%, #0751bf 100%); box-shadow: inset -26px -29px 34px rgba(1,39,126,.38), inset 10px 12px 24px rgba(126,219,255,.19), 0 20px 38px rgba(8,72,177,.35); transform: translate(-50%, -50%); }
+      .workhere-planet::before { content: ""; position: absolute; z-index: -1; width: 65%; height: 22%; left: 12%; top: 13%; border-radius: 50%; background: rgba(255,255,255,.14); filter: blur(10px); transform: rotate(-29deg); }
+      .workhere-logo { position: relative; z-index: 1; display: grid; justify-items: center; gap: 9px; color: #fff; filter: drop-shadow(0 3px 2px rgba(3,39,109,.22)); }
+      .workhere-logo b { font-size: clamp(52px, 6vw, 82px); font-weight: 800; line-height: .65; letter-spacing: -.07em; }
+      .workhere-logo span { font-size: clamp(22px, 2.2vw, 30px); font-weight: 800; line-height: 1; }
+      .solar-planet { --planet-light: #8ff2ed; --planet: #36c9ca; --planet-shadow: #14989f; width: 112px; aspect-ratio: 1; position: absolute; z-index: 4; display: grid; place-items: center; border: 0; border-radius: 50%; color: #fff; isolation: isolate; background: radial-gradient(circle at 30% 22%, rgba(255,255,255,.42) 0%, rgba(255,255,255,.13) 13%, transparent 30%), radial-gradient(circle at 33% 25%, var(--planet-light) 0%, var(--planet) 49%, var(--planet-shadow) 100%); box-shadow: inset -15px -18px 23px rgba(3,29,64,.27), inset 8px 9px 15px rgba(255,255,255,.12), 0 13px 25px rgba(1,15,43,.28); transform: translate(-50%, -50%); transition: transform .25s ease, box-shadow .25s ease; }
+      .solar-planet::before { content: ""; position: absolute; z-index: -1; inset: -16% -25%; border: 2px solid rgba(180,232,255,.78); border-radius: 50%; opacity: 0; transform: rotate(-23deg); transition: opacity .25s ease; }
+      .solar-planet::after { content: attr(data-label); position: absolute; z-index: 5; top: calc(100% + 15px); width: max-content; color: #fff; font-size: 18px; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,.42); white-space: nowrap; }
+      .solar-planet.is-selected::before { opacity: 1; }.solar-planet:hover, .solar-planet:focus-visible { outline: 0; transform: translate(-50%, -50%) scale(1.08); animation-play-state: paused; box-shadow: inset -15px -18px 23px rgba(3,29,64,.27), inset 8px 9px 15px rgba(255,255,255,.12), 0 18px 31px rgba(1,15,43,.38); }
+      .solar-ring-front { position: absolute; z-index: 4; inset: -16% -25%; border-bottom: 2px solid rgba(207,243,255,.92); border-radius: 50%; opacity: 0; pointer-events: none; transform: rotate(-23deg); transition: opacity .25s ease; }.solar-planet.is-selected .solar-ring-front { opacity: 1; }
+      .solar-icon { position: relative; z-index: 3; width: 44%; aspect-ratio: 1; display: grid; place-items: center; color: #fff; filter: drop-shadow(0 2px 2px rgba(2,32,64,.32)); }.solar-icon svg { width: 100%; height: 100%; overflow: visible; fill: none; stroke: currentColor; stroke-width: 2.15; stroke-linecap: round; stroke-linejoin: round; }
+      .solar-planet.messenger { --planet-light: #91f3ef; --planet: #35c9ca; --planet-shadow: #118f9b; width: 142px; left: 50%; top: 12%; animation: orbit-messenger 60s linear infinite; }.solar-planet.calendar { --planet-light: #ffb9d9; --planet: #ec6aa4; --planet-shadow: #c93e7e; width: 172px; left: 12%; top: 51%; animation: orbit-calendar 60s linear -12s infinite; }.solar-planet.mail { --planet-light: #ffe98b; --planet: #f3bf3d; --planet-shadow: #c88d18; width: 132px; left: 91%; top: 51%; animation: orbit-mail 60s linear -24s infinite; }.solar-planet.crm { --planet-light: #b4a5ff; --planet: #8776e9; --planet-shadow: #5142b5; width: 152px; left: 50%; top: 94%; animation: orbit-crm 60s linear -36s infinite; }.solar-planet.phone { --planet-light: #8edcff; --planet: #2eaae9; --planet-shadow: #1377c4; width: 116px; left: 89%; top: 51%; animation: orbit-phone 60s linear -48s infinite; }
+      @keyframes orbit-messenger { 0%,100% { left:50%; top:12%; } 12.5% { left:73.3%; top:23.4%; } 25% { left:83%; top:51%; } 37.5% { left:73.3%; top:78.6%; } 50% { left:50%; top:90%; } 62.5% { left:26.7%; top:78.6%; } 75% { left:17%; top:51%; } 87.5% { left:26.7%; top:23.4%; } }
+      @keyframes orbit-calendar { 0%,100% { left:50%; top:16%; } 12.5% { left:76.9%; top:26.3%; } 25% { left:88%; top:51%; } 37.5% { left:76.9%; top:75.7%; } 50% { left:50%; top:86%; } 62.5% { left:23.1%; top:75.7%; } 75% { left:12%; top:51%; } 87.5% { left:23.1%; top:26.3%; } }
+      @keyframes orbit-mail { 0%,100% { left:50%; top:11%; } 12.5% { left:79%; top:22.7%; } 25% { left:91%; top:51%; } 37.5% { left:79%; top:79.3%; } 50% { left:50%; top:91%; } 62.5% { left:21%; top:79.3%; } 75% { left:9%; top:51%; } 87.5% { left:21%; top:22.7%; } }
+      @keyframes orbit-crm { 0%,100% { left:50%; top:8%; } 12.5% { left:74.7%; top:20.6%; } 25% { left:85%; top:51%; } 37.5% { left:74.7%; top:81.4%; } 50% { left:50%; top:94%; } 62.5% { left:25.3%; top:81.4%; } 75% { left:15%; top:51%; } 87.5% { left:25.3%; top:20.6%; } }
+      @keyframes orbit-phone { 0%,100% { left:50%; top:14%; } 12.5% { left:77.6%; top:24.8%; } 25% { left:89%; top:51%; } 37.5% { left:77.6%; top:77.2%; } 50% { left:50%; top:88%; } 62.5% { left:22.4%; top:77.2%; } 75% { left:11%; top:51%; } 87.5% { left:22.4%; top:24.8%; } }
+      @media (prefers-reduced-motion: reduce) { .solar-planet { animation: none !important; } }
+      /* Иллюстрации планет: отдельные интерактивные элементы, а не фон блока. */
+      .workhere-planet { overflow: visible; background: transparent; box-shadow: none; }
+      .workhere-planet::before, .workhere-logo { display: none; }
+      .solar-planet { overflow: visible; background: transparent; box-shadow: none; }
+      .solar-planet:hover, .solar-planet:focus-visible { box-shadow: none; }
+      .planet-art { position: relative; z-index: 2; display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 17px rgba(1,15,43,.28)); transition: filter .25s ease; }
+      .workhere-art { filter: drop-shadow(0 23px 28px rgba(1,15,43,.34)); }
+      .solar-planet:hover .planet-art, .solar-planet:focus-visible .planet-art { filter: drop-shadow(0 20px 22px rgba(1,15,43,.42)); }
+
+      .info-panel { min-height: 620px; padding: clamp(30px, 3vw, 48px); display: flex; flex-direction: column; align-items: flex-start; border: 1px solid #e1ebf6; border-radius: 32px; color: var(--ink); background: rgba(255,255,255,.9); box-shadow: 0 18px 38px rgba(20,78,123,.09); }
+      .selected-tag { display: flex; align-items: center; gap: 12px; margin-bottom: 44px; color: #74829e; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }.focus-core { --planet-color: var(--cyan); width: 25px; height: 25px; display: grid; place-items: center; overflow: hidden; border-radius: 50%; color: transparent; background: var(--planet-color); box-shadow: 0 0 0 8px color-mix(in srgb, var(--planet-color), transparent 82%); transition: background .3s; }.focus-icon { display: none; }
+      .info-panel h3 { margin: 0 0 13px; font-size: clamp(38px, 3.4vw, 57px); line-height: .88; letter-spacing: -2.5px; }.info-panel > p { margin: 0; color: #6b7894; font-size: 18px; line-height: 1.35; }
+      .service-logos { width: 100%; margin: 34px 0 30px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }.orbit-logo { width: 92px; height: 92px; display: grid; place-items: center; }.orbit-logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 8px rgba(20,78,123,.10)); }.orbit-logo.logo-whatsapp img { transform: scale(1.14); }.orbit-logo.logo-max { overflow: hidden; border-radius: 50%; background: #f5f5f6; }.orbit-logo.logo-max img { object-fit: cover; mix-blend-mode: multiply; transform: scale(1.82); }
+      .service-logos.phone-logo-strip { width: 100%; padding: 20px 22px; justify-content: space-between; gap: 10px; flex-wrap: nowrap; border-radius: 20px; background: #fff; box-shadow: 0 10px 24px rgba(20,78,123,.08); }.phone-logo-strip .orbit-logo { width: 78px; height: 72px; }.phone-logo-strip .orbit-logo img { transform: scale(1.05); }.phone-brand-mts { width: 64px; height: 64px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; place-items: center; flex: 0 0 auto; padding: 6px 8px; border-radius: 11px; color: #fff; background: #df3434; font-size: 27px; font-weight: 700; line-height: 1; }.phone-brand-mts b:nth-child(1) { grid-column: 1; grid-row: 1; }.phone-brand-mts b:nth-child(2) { grid-column: 2; grid-row: 1; }.phone-brand-mts b:nth-child(3) { grid-column: 2; grid-row: 2; }
+      .service-logos.calendar-logo-strip { gap: 18px; flex-wrap: nowrap; }.calendar-logo { width: 118px; height: 118px; display: grid; place-items: center; flex: 0 0 auto; }.calendar-logo.google-calendar img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 10px rgba(20,78,123,.10)); }.calendar-logo.yandex-calendar { border-radius: 50%; background: #fff; box-shadow: 0 8px 16px rgba(20,78,123,.09); }.calendar-logo.yandex-calendar span { font-size: 92px; font-weight: 800; line-height: .85; letter-spacing: -.14em; background: linear-gradient(135deg, #ff7300 0 36%, #fc3e6f 52%, #cf43ed 76%); -webkit-background-clip: text; background-clip: text; color: transparent; transform: translateX(-4px); }.calendar-logo.bitrix-calendar { border-radius: 31px; color: #fff; background: linear-gradient(145deg, #5be59e 0%, #25bddb 43%, #0877ef 78%); box-shadow: 0 8px 16px rgba(20,78,123,.14); }.calendar-logo.bitrix-calendar span { font-size: 23px; font-weight: 800; letter-spacing: -1.2px; }.calendar-logo.bitrix-calendar sup { font-size: 11px; vertical-align: top; }
+      .info-description { margin-top: auto !important; }.info-panel .cta { width: 100%; justify-content: center; margin: 30px 0 24px; border-radius: 14px; }.info-tip { width: 100%; padding-top: 23px; border-top: 1px solid #e4ebf2; color: #71809b; font-size: 14px; line-height: 1.35; }
+      @keyframes twirl { 50% { transform: translateY(-13px) rotate(6deg); } }
+
+      .large-jobs { min-height: 530px; margin: 80px 0 100px; padding: clamp(36px, 5vw, 70px); position: relative; overflow: hidden; border-radius: 44px; background: #f2eee4; }
+      .large-jobs::after { content: ""; position: absolute; width: 340px; height: 340px; right: -60px; bottom: -190px; border-radius: 50%; background: var(--yellow); opacity: .7; }
+      .large-jobs h2 { position: relative; z-index: 1; max-width: 620px; font-size: clamp(42px, 5vw, 70px); }
+      .large-jobs p { position: relative; z-index: 1; max-width: 520px; margin: 22px 0 0; font-size: 19px; line-height: 1.35; }
+      .large-jobs .cta { position: relative; z-index: 1; margin-top: 28px; }
+      .job-cloud { position: absolute; z-index: 1; top: 50%; left: 45%; right: clamp(64px, 7vw, 140px); display: grid; grid-template-columns: repeat(5, max-content); justify-content: space-between; gap: 26px 30px; transform: translateY(-50%); color: #17233c; font-size: clamp(14px, 1.18vw, 19px); font-weight: 700; line-height: 1; text-align: center; }
+      .job-cloud span { opacity: .82; white-space: nowrap; transition: opacity 1.35s ease; }
+      .job-cloud span.is-fading { opacity: .28; }
+      .typing-phrase { display: inline; color: var(--blue); }
+      .typing-phrase::after { content: ""; display: inline-block; width: .07em; height: .78em; margin-left: .07em; vertical-align: -.04em; background: currentColor; animation: typing-caret .82s steps(1, end) infinite; }
+      @keyframes typing-caret { 50% { opacity: 0; } }
+
+      @media (max-width: 900px) {
+        .site-header { width: calc(100% - 32px); }.nav { display: none; }.header-actions .login { display: none; }
+        .hero, .hero-frame { min-height: 760px; }.hero-frame { width: calc(100% - 60px); padding: 45px 0 35px; }.hero-copy { width: 52%; }.hero-copy p { font-size: 15px; }.orbit-system { top: 230px; width: 88%; height: 390px; }.cat { width: 270px; }.planet { font-size: 11px; }.journey-heading { grid-template-columns: 1fr; gap: 22px; }.mission { grid-template-columns: 1fr; gap: 28px; }.solar-system { min-height: 570px; }.info-panel { min-height: 0; }.info-panel h3 { font-size: 48px; }.large-jobs { min-height: 0; }.job-cloud { position: relative; top: auto; left: auto; right: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); justify-content: stretch; margin-top: 42px; transform: none; text-align: left; }
+      }
+      @media (max-width: 560px) {
+        .site-header { height: 66px; }.brand { font-size: 22px; }.header-actions .demo { padding: 11px 15px; font-size: 11px; }
+        .hero, .hero-frame { min-height: 820px; }.hero-frame { width: 100%; padding: 37px 22px 25px; }.hero-copy { width: 100%; }.hero-copy p { max-width: 280px; }.hero-copy .cta { padding: 13px 17px; }.orbit-system { top: 342px; right: 0; width: 100%; }.cat { left: 52%; top: 46%; width: 230px; }.planet { font-size: 9px; }.planet small { font-size: 10px; }.planet.messenger { left: 5%; top: 2%; width: 94px; height: 94px; }.planet.mail { left: 3%; width: 68px; height: 68px; }.planet.calendar { right: -1%; top: 3%; width: 82px; height: 82px; }.planet.phone { right: -1%; bottom: 2%; width: 75px; height: 75px; }.planet.crm { left: 29%; width: 105px; height: 105px; }.solar-system { min-height: 500px; border-radius: 25px; }.workhere-planet { width: 185px; }.solar-planet { transform: translate(-50%, -50%) scale(.72); }.solar-planet:hover { transform: translate(-50%, -50%) scale(.8); }.solar-planet::after { font-size: 13px; }.info-panel { padding: 28px; border-radius: 25px; }.selected-tag { margin-bottom: 28px; }.info-panel h3 { font-size: 42px; }.service-logos { gap: 14px; }.orbit-logo { width: 72px; height: 72px; }.service-logos.phone-logo-strip { padding: 16px; gap: 6px; }.phone-logo-strip .orbit-logo { width: 47px; height: 56px; }.phone-brand-mts { width: 47px; height: 47px; padding: 4px 6px; border-radius: 8px; font-size: 20px; }.marquee-label { font-size: 9px; }.tracks { padding: 0 18px; }.track { min-height: 23px; gap: 12px; }.track span { font-size: 10px; }
+        .journey { width: 100%; margin-top: 28px; padding: 72px 16px 80px; } .journey h2 span { white-space: normal; } h2 { letter-spacing: -2.3px; }.mission { min-height: 0; }.large-jobs { margin-bottom: 55px; border-radius: 30px; }.job-cloud { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; font-size: 13px; }.service-logos.calendar-logo-strip { gap: 10px; }.calendar-logo { width: 70px; height: 70px; }.calendar-logo.yandex-calendar span { font-size: 57px; }.calendar-logo.bitrix-calendar { border-radius: 18px; }.calendar-logo.bitrix-calendar span { font-size: 14px; letter-spacing: -.7px; }.calendar-logo.bitrix-calendar sup { font-size: 7px; }
+        .jobs-marquee { padding: 24px 0; }.marquee-inner { grid-template-columns: 82px minmax(0, 1fr); gap: 10px; padding: 0 16px; }.marquee-label { font-size: 11px; }.tracks { padding: 0; gap: 10px; }.track-group { gap: 26px; padding-right: 26px; }.track span { font-size: 13px; }
+      }
+
+      /* Светлая композиция первого экрана. */
+      .hero { min-height: 760px; color: var(--ink); background: var(--cream); }
+      .hero::before { z-index: 0; inset: 18% 12% 12% 43%; opacity: 1; background: #f1eee6; clip-path: polygon(4% 12%, 74% 0, 79% 12%, 100% 14%, 97% 78%, 70% 83%, 72% 100%, 13% 92%, 15% 78%, 0 74%); }
+      .hero::after { z-index: 0; inset: 0; opacity: 1; background: radial-gradient(circle at 49% 20%, rgba(104,223,233,.13) 0 2px, transparent 3px), radial-gradient(circle at 86% 16%, rgba(12,22,48,.82) 0 1px, transparent 2px), radial-gradient(circle at 42% 83%, rgba(12,22,48,.82) 0 1px, transparent 2px); background-size: 210px 190px, 240px 210px, 190px 230px; }
+      .hero-frame { min-height: 760px; z-index: 1; padding-top: 88px; }
+      .hero .eyebrow { color: var(--ink); }
+      .hero h1 { color: var(--ink); line-height: .95; }
+      .hero h1 span { position: relative; z-index: 0; display: inline-block; color: var(--ink); }
+      .hero h1 span::before { content: ""; position: absolute; z-index: -1; inset: 43% -14px 5% -10px; border-radius: 4px; background: #a9f2f0; transform: rotate(1.5deg) skewX(-7deg); }
+      .hero-copy p { color: var(--ink); }
+      .hero-copy .cta { border: 0; color: var(--ink); background: #63e2ed; box-shadow: 0 12px 24px rgba(68,201,211,.24); backdrop-filter: none; }
+      .hero-copy .cta:hover, .hero-copy .cta:focus-visible { color: var(--ink); background: #83edf3; box-shadow: 0 16px 28px rgba(68,201,211,.34); }
+      .orbit { border-color: rgba(91,211,246,.44); }
+      .cat { filter: drop-shadow(0 18px 19px rgba(35,67,96,.18)); }
+      .hero .planet small { color: var(--ink); text-shadow: none; }
+      .hero .hero-doodle { color: var(--ink); }
+      @media (max-width: 900px) { .hero, .hero-frame { min-height: 760px; }.hero::before { inset: 31% 2% 8% 32%; } }
+      @media (max-width: 560px) { .hero, .hero-frame { min-height: 820px; }.hero::before { inset: 38% 0 5% 7%; }.hero-frame { padding-top: 52px; }.hero h1 span::before { inset-inline: -6px; } }
+
+      /* Светлая версия интерактивной орбитальной схемы — анимации и клики сохранены. */
+      .journey { color: var(--ink); background: var(--cream); }
+      .journey::before { z-index: 0; inset: 30% 12% 8% 18%; opacity: 1; background: #f1eee6; clip-path: polygon(7% 7%, 72% 0, 76% 10%, 100% 13%, 95% 82%, 74% 88%, 78% 100%, 16% 91%, 18% 78%, 0 73%); }
+      .journey::after { z-index: 0; inset: 0; opacity: 1; background: radial-gradient(circle at 49% 20%, rgba(104,223,233,.13) 0 2px, transparent 3px), radial-gradient(circle at 86% 16%, rgba(12,22,48,.82) 0 1px, transparent 2px), radial-gradient(circle at 42% 83%, rgba(12,22,48,.82) 0 1px, transparent 2px); background-size: 210px 190px, 240px 210px, 190px 230px; }
+      .journey-heading, .mission { z-index: 1; }
+      .journey .eyebrow { color: var(--ink) !important; }
+      .journey h2 { color: var(--ink); }
+      .journey h2 span { position: relative; z-index: 0; color: var(--ink); }
+      .journey h2 span:first-of-type::before { content: ""; position: absolute; z-index: -1; inset: 42% -16px 7% -12px; border-radius: 4px; background: #a9f2f0; transform: rotate(1.5deg) skewX(-7deg); }
+      .journey-heading p { color: var(--ink); }
+      .mission { min-height: 720px; padding-top: 128px; }
+      .solar-system { background: radial-gradient(ellipse at 51% 51%, rgba(186,239,255,.26), rgba(236,248,255,.11) 31%, transparent 65%); }
+      .solar-system::before, .solar-system::after, .orbit-line { border-color: rgba(74,202,241,.5); }
+      .solar-planet::after { color: var(--ink); text-shadow: none; }
+      .solar-planet::before { border-color: var(--ink); }
+      .solar-ring-front { border-bottom-color: var(--ink); }
+      .info-panel { position: relative; isolation: isolate; border: 2px solid var(--ink); background: rgba(255,255,255,.94); box-shadow: 0 20px 42px rgba(35,67,96,.14); }
+      .info-panel::before { content: ""; position: absolute; z-index: 1; width: 272px; height: 238px; left: 50%; top: -198px; pointer-events: none; background: url("Интеграции/cat-wave-transparent-v2.png") center / contain no-repeat; transform: translateX(-50%); filter: drop-shadow(0 15px 14px rgba(35,67,96,.16)); }
+      .info-panel > * { position: relative; z-index: 2; }
+      .info-panel .cta { color: #fff; background: #35a460; box-shadow: 0 12px 22px rgba(53,164,96,.24); }
+      .info-panel .cta:hover, .info-panel .cta:focus-visible { color: #fff; background: #2c8d51; box-shadow: 0 16px 26px rgba(53,164,96,.34); }
+      .info-tip { border-top-color: rgba(12,22,48,.15); color: #6b7894; }
+      @media (max-width: 900px) { .mission { padding-top: 108px; }.info-panel::before { width: 238px; height: 210px; top: -176px; } }
+      @media (max-width: 560px) { .journey { padding-top: 72px; }.journey h2 span:first-of-type::before { inset-inline: -7px; }.mission { padding-top: 90px; }.info-panel::before { width: 198px; height: 176px; top: -148px; } }
+
+      /* Компактный масштаб: вся интерактивная композиция собирается в один экран. */
+      .journey { padding-top: 28px; padding-bottom: 30px; }
+      .journey-heading { gap: 34px; margin-bottom: 14px; }
+      .journey h2 { font-size: clamp(38px, 4vw, 58px); line-height: .94; letter-spacing: -3px; }
+      .journey-heading p { font-size: 16px; line-height: 1.3; }
+      .mission { min-height: 480px; gap: clamp(26px, 3vw, 54px); padding-top: 30px; }
+      .solar-system { min-height: 442px; }
+      .workhere-planet { width: clamp(184px, 17vw, 238px); }
+      .solar-planet.messenger { width: 104px; }.solar-planet.calendar { width: 128px; }.solar-planet.mail { width: 98px; }.solar-planet.crm { width: 112px; }.solar-planet.phone { width: 84px; }
+      .info-panel { min-height: 450px; padding: 26px 28px; border-radius: 26px; }
+      .info-panel::before { width: 184px; height: 161px; top: -112px; }
+      .selected-tag { margin-bottom: 18px; font-size: 12px; }.info-panel h3 { margin-bottom: 7px; font-size: clamp(35px, 2.8vw, 44px); }.info-panel > p { font-size: 15px; }
+      .service-logos { margin: 16px 0; gap: 12px; }.orbit-logo { width: 68px; height: 68px; }
+      .service-logos.phone-logo-strip { padding: 12px 14px; }.phone-logo-strip .orbit-logo { width: 55px; height: 54px; }.phone-brand-mts { width: 48px; height: 48px; font-size: 20px; }
+      .service-logos.calendar-logo-strip { gap: 12px; }.calendar-logo { width: 82px; height: 82px; }.calendar-logo.yandex-calendar span { font-size: 64px; }.calendar-logo.bitrix-calendar { border-radius: 21px; }.calendar-logo.bitrix-calendar span { font-size: 16px; }
+      .info-panel .cta { margin: 15px 0 13px; min-height: 48px; }.info-tip { padding-top: 13px; font-size: 12px; }
+      @media (min-width: 901px) { .solar-system { transform: scale(.91); transform-origin: 50% 46%; } }
+      /* Детали карточки и орбитальной схемы. */
+      .journey-heading { align-items: start; }
+      .journey-heading > p { margin-top: 2px; }
+      .journey-star { position: absolute; z-index: 1; color: var(--ink); font-size: 42px; font-weight: 400; line-height: 1; pointer-events: none; text-shadow: 0 2px 8px rgba(12,22,48,.08); }
+      .journey-star.star-one { left: 5%; top: 42%; }.journey-star.star-two { left: 44%; top: 14%; font-size: 29px; }.journey-star.star-three { right: 6%; top: 27%; }.journey-star.star-four { right: 17%; bottom: 9%; font-size: 31px; }
+      .info-panel::before { z-index: 3; width: 200px; height: 176px; top: -154px; }
+      .info-panel > * { z-index: 4; }
+      .info-panel h3 { margin-top: 18px; }
+      .solar-planet::before { border-color: #5bcff2; box-shadow: 0 0 13px rgba(91,207,242,.34); }
+      .solar-ring-front { border-bottom-color: #5bcff2; filter: drop-shadow(0 0 5px rgba(91,207,242,.42)); }
+      .workhere-planet { width: clamp(202px, 18vw, 260px); }
+      .solar-planet.messenger { width: 120px; }.solar-planet.calendar { width: 148px; }.solar-planet.mail { width: 112px; }.solar-planet.crm { width: 128px; }.solar-planet.phone { width: 96px; }
+      @media (min-width: 901px) { .solar-system { transform: scale(.95); } }
+      @media (max-width: 900px) { .journey-heading { align-items: start; }.journey-star.star-two, .journey-star.star-four { display: none; }.info-panel::before { width: 190px; height: 167px; top: -146px; } }
+      @media (max-width: 560px) { .journey-star { font-size: 30px; }.journey-star.star-one { left: 4%; top: 35%; }.journey-star.star-three { right: 4%; top: 44%; }.info-panel h3 { margin-top: 12px; }.info-panel::before { width: 166px; height: 146px; top: -126px; } }
+      /* В схеме остаются только значки — подписи выводятся в карточке интеграции. */
+      .solar-planet::after { display: none; }
+      .service-logos.crm-logo-strip { gap: 28px; flex-wrap: nowrap; }
+      .crm-logo { width: 108px; height: 108px; display: grid; place-items: center; flex: 0 0 auto; overflow: hidden; border-radius: 50%; box-shadow: 0 10px 18px rgba(20,78,123,.12); }
+      .crm-logo img { width: 100%; height: 100%; object-fit: contain; }
+      .crm-bitrix { background: #27b7e8; }.crm-bitrix img { width: 82%; height: 82%; object-fit: contain; filter: brightness(0) invert(1); }
+      .crm-onec { position: relative; background: #e8281e; }.crm-onec::before { content: ""; position: absolute; inset: 55% -18% -20% 36%; background: linear-gradient(135deg, rgba(111,0,0,.55), transparent 62%); transform: rotate(8deg); }.crm-onec::after { content: "1C"; position: relative; z-index: 1; color: #fff; font-family: Arial, sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -7px; transform: translateX(-3px); }.crm-onec img { display: none; }
+      .crm-amo { background: #0c8cc0; }.crm-amo img { transform: scale(1.03); object-fit: cover; }
+      @media (max-width: 560px) { .service-logos.crm-logo-strip { gap: 16px; }.crm-logo { width: 78px; height: 78px; } }
+      .service-logos.messenger-logo-strip { gap: 14px; flex-wrap: nowrap; }
+      .messenger-logo-strip .orbit-logo { width: clamp(78px, 6.8vw, 92px); height: clamp(78px, 6.8vw, 92px); }
+      @media (max-width: 560px) { .service-logos.messenger-logo-strip { gap: 10px; }.messenger-logo-strip .orbit-logo { width: calc((100vw - 96px) / 4); height: calc((100vw - 96px) / 4); max-width: 80px; max-height: 80px; } }
+      .service-logos.mail-logo-strip { gap: 15px; flex-wrap: nowrap; }
+      .mail-logo-strip .orbit-logo { width: clamp(82px, 7.1vw, 100px); height: clamp(82px, 7.1vw, 100px); }
+      .mail-logo-strip .orbit-logo img { width: 100%; height: 100%; object-fit: contain; }
+      @media (max-width: 560px) { .service-logos.mail-logo-strip { gap: 10px; }.mail-logo-strip .orbit-logo { width: calc((100vw - 96px) / 4); height: calc((100vw - 96px) / 4); max-width: 80px; max-height: 80px; } }
+      .service-logos.calendar-logo-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: 12px; }
+      .calendar-logo { width: 100%; max-width: 102px; height: auto; aspect-ratio: 1; justify-self: center; }
+      .calendar-logo.google-calendar img, .calendar-logo.exchange-calendar img, .calendar-logo.outlook-calendar img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 10px rgba(20,78,123,.10)); }
+      .calendar-logo.yandex-calendar { overflow: visible; }.calendar-logo.yandex-calendar span { padding: 0 5px 5px; font-size: clamp(58px, 6.3vw, 86px); line-height: 1.08; transform: none; }
+      .calendar-logo.exchange-calendar { overflow: hidden; border-radius: 22px; background: #fff; box-shadow: 0 7px 16px rgba(20,78,123,.08); }.calendar-logo.exchange-calendar img { object-fit: cover; transform: scale(1.22); }
+      @media (min-width: 901px) {
+        .solar-system { transform: scale(1.04); transform-origin: 51% 49%; }
+        .workhere-planet { width: clamp(238px, 21vw, 312px); }
+        .solar-planet.messenger { width: 140px; }.solar-planet.calendar { width: 170px; }.solar-planet.mail { width: 132px; }.solar-planet.crm { width: 150px; }.solar-planet.phone { width: 112px; }
+      }
+      @media (max-width: 560px) { .service-logos.calendar-logo-strip { gap: 8px; }.calendar-logo { max-width: none; }.calendar-logo.yandex-calendar span { font-size: clamp(48px, 13vw, 68px); } }
+      /* Телефония: пять сервисов в двух аккуратных рядах. */
+      .service-logos.phone-logo-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: 14px 22px; padding: 4px 0; background: transparent; box-shadow: none; }
+      .phone-service { min-width: 0; height: 82px; display: grid; place-items: center; }
+      .phone-service img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 5px 8px rgba(20,78,123,.09)); }
+      .phone-t2 { width: 92px; height: 92px; justify-self: start; overflow: hidden; border-radius: 22px; background: #050505; }.phone-t2 img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
+      .phone-megafon img { width: 118px; }.phone-beeline { width: 92px; height: 92px; justify-self: end; overflow: hidden; border-radius: 24px; background: #f1f1f1; }.phone-beeline img { width: 148%; height: 148%; object-fit: cover; }
+      .phone-mango { grid-column: 1 / span 2; justify-self: center; }.phone-mango img { width: 168px; }.phone-sipuni { justify-self: center; }.phone-sipuni img { width: 142px; }
+      @media (max-width: 560px) { .service-logos.phone-logo-strip { gap: 10px 12px; }.phone-service { height: 62px; }.phone-t2, .phone-beeline { width: 70px; height: 70px; border-radius: 17px; }.phone-megafon img { width: 88px; }.phone-mango img { width: 126px; }.phone-sipuni img { width: 106px; } }
+      @media (max-width: 900px) { .journey { padding-top: 60px; padding-bottom: 68px; }.journey-heading { margin-bottom: 22px; }.mission { min-height: 0; padding-top: 80px; }.solar-system { min-height: 460px; }.info-panel { min-height: 0; }.info-panel::before { width: 208px; height: 182px; top: -150px; } }
+      @media (max-width: 560px) { .journey { padding: 52px 16px 68px; }.journey-heading p { font-size: 16px; }.mission { padding-top: 68px; }.solar-system { min-height: 410px; }.workhere-planet { width: 170px; }.solar-planet.messenger { width: 86px; }.solar-planet.calendar { width: 108px; }.solar-planet.mail { width: 82px; }.solar-planet.crm { width: 96px; }.solar-planet.phone { width: 70px; }.info-panel { padding: 26px; }.info-panel::before { width: 174px; height: 152px; top: -126px; }.orbit-logo { width: 64px; height: 64px; } }
+
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top"><span>Work</span>Here</a>
+      <nav class="nav" aria-label="Основная навигация"><a href="#mission">Интеграции</a><a href="#jobs">Работные сайты</a><a href="#mission">Возможности</a><a href="#jobs">Тарифы</a></nav>
+      <div class="header-actions"><button class="demo">Заявка на демо</button><a class="login" href="#top">Войти</a></div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title"><div class="hero-frame">
+        <div class="hero-copy"><p class="eyebrow">Вселенная WorkHere</p><h1 id="hero-title"><span>Интеграции</span><br>для эффективного найма</h1><p>Подключайте сервисы, которыми уже пользуется ваша команда, и управляйте наймом в одном окне.</p><button class="cta">Смотреть интеграции</button></div>
+        <div class="orbit-system" aria-label="Категории интеграций">
+          <div class="orbit one"></div><div class="orbit two"></div><div class="orbit three"></div>
+          <img class="cat" src="Интеграции/workhere-cat-astronaut.png" alt="Кот WorkHere в скафандре" />
+          <button class="planet messenger" data-category="messenger" aria-label="Мессенджеры"><img class="hero-planet-art" src="Интеграции/Планеты/messenger.png" alt=""><small>Мессенджеры</small></button>
+          <button class="planet mail" data-category="mail" aria-label="Почта"><img class="hero-planet-art" src="Интеграции/Планеты/mail.png" alt=""><small>Почта</small></button>
+          <button class="planet calendar" data-category="calendar" aria-label="Календари"><img class="hero-planet-art" src="Интеграции/Планеты/calendar.png" alt=""><small>Календари</small></button>
+          <button class="planet phone" data-category="phone" aria-label="Телефония"><img class="hero-planet-art" src="Интеграции/Планеты/phone.png" alt=""><small>Телефония</small></button>
+          <button class="planet crm" data-category="crm" aria-label="CRM и ATS"><img class="hero-planet-art" src="Интеграции/Планеты/crm.png" alt=""><small>CRM и ATS</small></button>
+        </div>
+        <span class="hero-doodle doodle-1">✦</span><span class="hero-doodle doodle-2">✧</span><span class="hero-doodle doodle-3">✦</span>
+      </div></section>
+      <section class="jobs-marquee" aria-label="Работные сайты">
+        <div class="marquee-inner">
+          <div class="marquee-label">25 площадок<br>для парсинга</div>
+          <div class="tracks" aria-label="Список площадок для парсинга">
+            <div class="marquee-lane"><div class="track forward"><div class="track-group"><span>HeadHunter</span><span>Работа.ру</span><span>Авито</span><span>SuperJob</span><span>Хабр Карьера</span><span>Jobers</span><span>JCat</span><span>FarPost</span><span>LinkedIn</span><span>HireHi</span><span>AmazingHiring</span><span>JobLab.ru</span></div><div class="track-group" aria-hidden="true"><span>HeadHunter</span><span>Работа.ру</span><span>Авито</span><span>SuperJob</span><span>Хабр Карьера</span><span>Jobers</span><span>JCat</span><span>FarPost</span><span>LinkedIn</span><span>HireHi</span><span>AmazingHiring</span><span>JobLab.ru</span></div></div></div>
+            <div class="marquee-lane"><div class="track backward"><div class="track-group"><span>Помогатель</span><span>GetMatch</span><span>Jobcart</span><span>Зарплата.ру</span><span>ВКонтакте</span><span>Jobinja</span><span>Работа России</span><span>SEEK</span><span>VietnamWorks</span><span>Irantalent</span><span>Jobbol</span><span>Trabalha Brasil</span><span>ГородРабот.ру</span></div><div class="track-group" aria-hidden="true"><span>Помогатель</span><span>GetMatch</span><span>Jobcart</span><span>Зарплата.ру</span><span>ВКонтакте</span><span>Jobinja</span><span>Работа России</span><span>SEEK</span><span>VietnamWorks</span><span>Irantalent</span><span>Jobbol</span><span>Trabalha Brasil</span><span>ГородРабот.ру</span></div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="journey" id="mission" aria-labelledby="journey-title">
+        <span class="journey-star star-one" aria-hidden="true">✧</span><span class="journey-star star-two" aria-hidden="true">✦</span><span class="journey-star star-three" aria-hidden="true">✧</span><span class="journey-star star-four" aria-hidden="true">✦</span>
+        <div class="journey-heading"><div><p class="eyebrow" style="color:var(--blue)">Маршрут для команды</p><h2 id="journey-title">Пять планет.<br><span>Один эффективный</span><br><span>найм.</span></h2></div><p>Нажмите на планету — она раскроет сервисы и покажет, как WorkHere объединяет их в единую систему.</p></div>
+        <div class="mission">
+          <div class="solar-system" aria-label="Интерактивная схема интеграций">
+            <div class="orbit-line one"></div><div class="orbit-line two"></div><div class="orbit-line three"></div><div class="orbit-line four"></div><div class="orbit-line five"></div>
+            <div class="workhere-planet" role="img" aria-label="WorkHere"><img class="planet-art workhere-art" src="Интеграции/Планеты/workhere.png" alt=""></div>
+            <button class="solar-planet messenger" data-category="messenger" data-label="Мессенджеры" aria-label="Мессенджеры"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/messenger.png" alt=""></button>
+            <button class="solar-planet calendar" data-category="calendar" data-label="Календари" aria-label="Календари"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/calendar.png" alt=""></button>
+            <button class="solar-planet mail" data-category="mail" data-label="Почта" aria-label="Почта"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/mail.png" alt=""></button>
+            <button class="solar-planet crm" data-category="crm" data-label="CRM и ATS" aria-label="CRM и ATS"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/crm.png" alt=""></button>
+            <button class="solar-planet phone" data-category="phone" data-label="Телефония" aria-label="Телефония"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/phone.png" alt=""></button>
+          </div>
+          <aside class="info-panel" aria-live="polite">
+            <h3 id="focusTitle">Мессенджеры</h3><p id="focusText">Все диалоги с кандидатами в одном окне.</p>
+            <div class="service-logos" id="orbitLogos"></div>
+            <p class="info-description">Общайтесь с кандидатами там, где им удобно. Переписка сохраняется в карточке кандидата.</p>
+            <button class="cta" id="focusCta">Подробнее об интеграции</button><div class="info-tip">ⓘ&nbsp;&nbsp; Нажмите на другую планету, чтобы узнать больше</div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="large-jobs" id="jobs" aria-labelledby="jobs-title"><p class="eyebrow" style="color:var(--blue)">Отдельная орбита</p><h2 id="jobs-title"><span>25</span> площадок<br>для <span class="typing-phrase" id="typingPhrase" aria-live="polite">парсинга соискателей</span></h2><p>Подключайте популярные работные сайты и собирайте больше кандидатов в одном удобном интерфейсе.</p><button class="cta">Заказать демо</button><div class="job-cloud" aria-label="Площадки для парсинга"><span>HeadHunter</span><span>Работа.ру</span><span>Авито</span><span>SuperJob</span><span>Хабр Карьера</span><span>Jobers</span><span>JCat</span><span>FarPost</span><span>LinkedIn</span><span>HireHi</span><span>AmazingHiring</span><span>JobLab.ru</span><span>Помогатель</span><span>GetMatch</span><span>Jobcart</span><span>Зарплата.ру</span><span>ВКонтакте</span><span>Jobinja</span><span>Работа России</span><span>SEEK</span><span>VietnamWorks</span><span>Irantalent</span><span>Jobbol</span><span>Trabalha Brasil</span><span>ГородРабот.ру</span></div></section>
+    </main>
+
+    <script>
+      const categories = {
+        messenger: { title: 'Мессенджеры', text: 'Все диалоги с кандидатами в одном окне.', detail: 'Общайтесь с кандидатами там, где им удобно. Переписка сохраняется в карточке кандидата.', icon: '☏', color: '#68dfe9', logos: ['Интеграции/Мессенджеры/Telegram.png','Интеграции/Мессенджеры/WhatsApp.png','Интеграции/Мессенджеры/MAX.webp','Интеграции/Мессенджеры/Viber.png'] },
+        mail: { title: 'Почта', text: 'Переписка сохраняется прямо в карточке кандидата.', detail: 'Вся почтовая переписка по кандидату остаётся в одном месте — в WorkHere.', icon: '✉', color: '#ffe16c', logos: ['Интеграции/Почты/e-mail.png','Интеграции/Почты/Outlook.png','Интеграции/Почты/Yandex.png','Интеграции/Почты/google.png'] },
+        calendar: { title: 'Календари', text: 'Синхронизируйте встречи и создавайте ссылки на созвоны.', detail: 'Планируйте интервью, синхронизируйте календари и приглашайте участников в несколько кликов.', icon: '▣', color: '#f5a2cf', logos: ['Интеграции/Календари/Google календарь.png','Интеграции/Календари/Яндекс Календарь.jpg','Интеграции/Яндекс телемост.png'] },
+        phone: { title: 'Телефония', text: 'Звоните из WorkHere и сохраняйте историю разговоров.', detail: 'Звоните кандидатам прямо из системы, расшифровывайте и оценивайте важные звонки.', icon: '☎', color: '#6cc3ff', logos: ['Интеграции/Телефония/800px-T2_(Tele2)_logo_2024.svg.png','Интеграции/Телефония/Мегафон.webp','Интеграции/Телефония/anons104-1.jpg','Интеграции/Телефония/Mango office.png','Интеграции/Телефония/Sipuni.png'] },
+        crm: { title: 'CRM и ATS', text: 'Передавайте кандидатов в привычные системы одним кликом.', detail: 'Соединяйте WorkHere с вашей CRM или ATS и сохраняйте единый процесс работы с кандидатами.', icon: '◉', color: '#929cff', logos: ['Интеграции/CRM и ATS/Битрикс 24.png','Интеграции/CRM и ATS/1C.jpg','Интеграции/CRM и ATS/АМО.png'] }
+      };
+      const title = document.getElementById('focusTitle'); const text = document.getElementById('focusText'); const detail = document.querySelector('.info-description'); const logoWrap = document.getElementById('orbitLogos'); const focusCta = document.getElementById('focusCta');
+      function getLogoClass(src) { if (src.includes('MAX')) return 'logo-max'; if (src.includes('WhatsApp')) return 'logo-whatsapp'; return ''; }
+      function selectCategory(key, shouldScroll = true) { const item = categories[key]; title.textContent = item.title; text.textContent = item.text; detail.textContent = item.detail; focusCta.textContent = 'Заказать демо'; logoWrap.classList.toggle('messenger-logo-strip', key === 'messenger'); logoWrap.classList.toggle('mail-logo-strip', key === 'mail'); logoWrap.classList.toggle('phone-logo-strip', key === 'phone'); logoWrap.classList.toggle('calendar-logo-strip', key === 'calendar'); logoWrap.classList.toggle('crm-logo-strip', key === 'crm'); logoWrap.innerHTML = key === 'calendar' ? `<span class="calendar-logo google-calendar"><img src="Интеграции/Календари/Google календарь.png" alt="Google Календарь"></span><span class="calendar-logo yandex-calendar" aria-label="Яндекс Календарь"><span>Y</span></span><span class="calendar-logo exchange-calendar"><img src="Интеграции/Календари/Microsoft-Exchange.jpg" alt="Microsoft Exchange"></span><span class="calendar-logo outlook-calendar"><img src="Интеграции/Календари/outlook.png" alt="Outlook"></span>` : key === 'phone' ? `<span class="phone-service phone-t2"><img src="Интеграции/Телефония/800px-T2_(Tele2)_logo_2024.svg.png" alt="T2"></span><span class="phone-service phone-megafon"><img src="Интеграции/Телефония/Мегафон.webp" alt="МегаФон"></span><span class="phone-service phone-beeline"><img src="Интеграции/Телефония/anons104-1.jpg" alt="Билайн"></span><span class="phone-service phone-mango"><img src="Интеграции/Телефония/Mango office.png" alt="Mango Office"></span><span class="phone-service phone-sipuni"><img src="Интеграции/Телефония/Sipuni.png" alt="Sipuni"></span>` : key === 'crm' ? `<span class="crm-logo crm-bitrix"><img src="Интеграции/CRM и ATS/Битрикс 24.png" alt="Битрикс24"></span><span class="crm-logo crm-onec"><img src="Интеграции/CRM и ATS/1C.jpg" alt="1С"></span><span class="crm-logo crm-amo"><img src="Интеграции/CRM и ATS/АМО.png" alt="amoCRM"></span>` : item.logos.map((src) => `<span class="orbit-logo ${getLogoClass(src)}"><img src="${src}" alt=""></span>`).join(''); document.querySelectorAll('.solar-planet').forEach((planet) => planet.classList.toggle('is-selected', planet.dataset.category === key)); if (shouldScroll) document.querySelector('.info-panel').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      document.querySelectorAll('[data-category]').forEach((button) => button.addEventListener('click', () => selectCategory(button.dataset.category)));
+      selectCategory('messenger', false);
+
+      const typingPhrase = document.getElementById('typingPhrase');
+      const phraseVariants = ['парсинга соискателей', 'проверки дублей', 'назначения собеседований', 'быстрого найма'];
+      let phraseIndex = 0;
+      let phraseLength = phraseVariants[0].length;
+      let isDeleting = false;
+      function animatePhrase() {
+        const phrase = phraseVariants[phraseIndex];
+        typingPhrase.textContent = phrase.slice(0, phraseLength);
+        let delay = isDeleting ? 32 : 58;
+
+        if (!isDeleting && phraseLength === phrase.length) {
+          delay = 1900;
+          isDeleting = true;
+        } else if (isDeleting && phraseLength === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phraseVariants.length;
+          delay = 320;
+        }
+
+        phraseLength += isDeleting ? -1 : 1;
+        window.setTimeout(animatePhrase, delay);
+      }
+      window.setTimeout(animatePhrase, 1900);
+
+      const jobPlatforms = [...document.querySelectorAll('.job-cloud span')];
+      function softlyFadePlatforms() {
+        const count = Math.random() > .72 ? 2 : 1;
+        const shuffled = [...jobPlatforms].sort(() => Math.random() - .5);
+        shuffled.slice(0, count).forEach((platform) => {
+          platform.classList.add('is-fading');
+          window.setTimeout(() => platform.classList.remove('is-fading'), 1800 + Math.random() * 900);
+        });
+        window.setTimeout(softlyFadePlatforms, 850 + Math.random() * 1250);
+      }
+      softlyFadePlatforms();
+    </script>
+  </body>
+</html>
