@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ИИ WorkHere — рабочий день рекрутера</title>
+  <style>
+    :root { --ink:#101d3b; --blue:#2877f5; --aqua:#7eeaf1; --paper:#efeee8; --cream:#fbfaf5; --green:#59dd91; --yellow:#ffdd62; --pink:#f987b4; }
+    * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; color:var(--ink); background:var(--cream); font:16px/1.35 Arial, Helvetica, sans-serif; overflow-x:hidden; }
+    .nav { height:76px; display:flex; align-items:center; justify-content:space-between; max-width:1240px; margin:auto; padding:0 24px; font-size:14px; font-weight:700; }
+    .logo { color:var(--blue); font-size:24px; font-weight:900; letter-spacing:-1.5px; } .nav a { color:inherit; text-decoration:none; margin-left:28px; } .nav .demo { background:var(--blue); color:white; border-radius:999px; padding:13px 23px; box-shadow:0 8px 18px #2877f54d; }
+    .hero, .scene { min-height:650px; position:relative; padding:62px max(24px, calc((100% - 1120px)/2)); display:grid; align-items:center; }
+    .hero { min-height:650px; grid-template-columns:1.05fr .95fr; gap:40px; }
+    .eyebrow, .step { font-weight:800; font-size:13px; letter-spacing:1.2px; text-transform:uppercase; } .eyebrow { margin-bottom:18px; }
+    h1,h2,p { margin-top:0; } h1 { max-width:610px; font-size:clamp(43px, 6vw, 78px); line-height:.95; letter-spacing:-4px; margin-bottom:27px; } h2 { font-size:clamp(38px,4.2vw,58px); line-height:.95; letter-spacing:-3px; margin-bottom:20px; }
+    .marker { box-decoration-break:clone; -webkit-box-decoration-break:clone; background:linear-gradient(transparent 53%, var(--aqua) 53% 90%, transparent 90%); padding:0 .06em; }
+    .intro { max-width:460px; font-size:20px; line-height:1.5; color:#34405a; } .button { display:inline-block; margin-top:16px; padding:16px 23px; color:var(--ink); background:var(--aqua); font-weight:800; border-radius:15px; text-decoration:none; box-shadow:0 10px 0 #54d8e050; }
+    .shape { position:absolute; background:var(--paper); z-index:-1; box-shadow:0 20px 40px #20294b0f; } .hero .shape { width:58%; height:48%; right:-3%; top:25%; transform:rotate(-3deg); }
+    .dots { position:absolute; inset:0; pointer-events:none; opacity:.75; background-image:radial-gradient(#27334d 1.2px, transparent 1.7px); background-size:52px 52px; mask-image:linear-gradient(to bottom,black,transparent 60%); z-index:-2; }
+    .hero-art { height:470px; position:relative; } .cat { width:min(92%,500px); position:absolute; object-fit:contain; filter:drop-shadow(0 25px 16px #1d27424c); }
+    .hero-art .cat { width:auto; height:450px; right:22px; top:8px; transform:none; } .orb { position:absolute; border:2px solid #8cddea; border-radius:50%; width:490px; height:250px; right:-20px; top:150px; transform:rotate(-20deg); } .orb.two { transform:rotate(35deg); top:164px; }
+    .float-card { position:absolute; border-radius:22px; background:white; border:2px solid var(--ink); box-shadow:10px 10px 0 #101d3b12; padding:20px; font-weight:700; } .float-card.one { left:0; top:60px; width:210px; } .float-card.two { right:20px; bottom:30px; width:190px; } .spark { color:var(--blue); font-size:25px; }
+    .route { position:absolute; left:50%; width:2px; height:80px; bottom:-40px; background:repeating-linear-gradient(var(--blue) 0 7px, transparent 7px 14px); z-index:4; }
+    .scene { grid-template-columns:.85fr 1.15fr; gap:58px; isolation:isolate; } .scene.reverse { grid-template-columns:1.15fr .85fr; } .scene.reverse .copy { order:2; } .scene .shape { width:72%; height:66%; top:18%; left:-4%; transform:rotate(2.5deg); } .scene.reverse .shape { left:auto; right:-4%; transform:rotate(-2.5deg); }
+    .copy { max-width:465px; } .copy p { font-size:18px; color:#39445c; line-height:1.5; } .step { display:inline-flex; align-items:center; gap:8px; color:#2d63d1; margin-bottom:16px; } .step::before { content:""; width:24px; height:24px; border-radius:50%; background:var(--yellow); border:2px solid var(--ink); }
+    .screen { background:#fff; min-height:365px; border:2px solid var(--ink); border-radius:25px; padding:25px; box-shadow:14px 16px 0 #1b284817; position:relative; overflow:hidden; } .screen-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; font-weight:800; font-size:22px; } .tag { padding:7px 10px; border-radius:99px; font-size:12px; background:#e9f1ff; color:#2163d1; }
+    .prompt { background:#f5f7fb; border:1.5px solid #d6ddeb; padding:15px; border-radius:13px; font-size:14px; line-height:1.4; } .prompt b { color:var(--blue); } .ai-line { height:10px; border-radius:100px; margin:12px 0; background:linear-gradient(90deg, #cddaff 68%, transparent 68%); } .ai-line.short { width:63%; } .ai-line.med { width:82%; } .typing { color:#397cf5; font-weight:700; font-size:14px; margin-top:16px; }
+    .chat { display:grid; gap:11px; margin:25px 8px; } .bubble { max-width:77%; padding:12px 14px; border-radius:16px 16px 16px 4px; background:#edf0f5; font-size:14px; } .bubble.bot { background:#dce9ff; margin-left:auto; border-radius:16px 16px 4px 16px; } .status { display:inline-flex; padding:9px 11px; border-radius:10px; font-weight:700; font-size:13px; background:#d7fae5; color:#157141; }
+    .searchbox { border:2px solid #779dfa; border-radius:14px; padding:14px; color:#66708a; font-size:14px; margin-bottom:16px; } .searchbox b { color:var(--ink); } .source-row { display:flex; gap:8px; margin-bottom:12px; } .source { padding:6px 10px; border-radius:20px; background:#f3f5f9; font-size:12px; font-weight:700; }
+    .candidate { display:grid; grid-template-columns:39px 1fr auto; align-items:center; gap:10px; padding:11px 0; border-top:1px solid #e5e7ed; } .avatar { width:39px; height:39px; display:grid; place-items:center; border-radius:50%; background:var(--pink); font-size:20px; } .candidate b { font-size:14px; display:block; } .candidate small { font-size:12px; color:#66708a; } .score { font-weight:800; color:#128a50; background:#e1f9eb; border-radius:9px; padding:6px; font-size:12px; }
+    .database { display:grid; grid-template-columns:1fr 1fr; gap:16px; height:318px; } .database .mini { border-radius:17px; padding:17px; background:#f6f7fa; } .database .mini strong { display:block; margin-bottom:14px; } .folder { height:52px; width:82px; border-radius:7px 12px 12px 12px; background:var(--yellow); margin:24px auto; position:relative; } .folder:before { content:""; position:absolute; height:13px; width:38px; background:var(--yellow); top:-8px; left:0; border-radius:8px 8px 0 0; } .pill { display:inline-block; background:#dfeaff; color:#2665d0; border-radius:20px; padding:6px 8px; font-size:11px; font-weight:bold; margin:3px; }
+    .offer { text-align:left; transform:rotate(-2deg); max-width:340px; margin:10px auto; padding:25px; background:#fffefb; border-radius:8px; box-shadow:0 11px 21px #101d3b28; } .offer h3 { font-size:25px; margin:0 0 12px; } .offer .signature { margin-top:35px; font-family:cursive; color:#2675ed; font-size:23px; } .seal { float:right; width:48px; height:48px; border:4px dotted var(--blue); border-radius:50%; }
+    .ending { min-height:75vh; text-align:center; display:grid; place-items:center; padding:90px 24px; position:relative; } .ending h2 { max-width:750px; } .ending p { color:#39445c; font-size:19px; }
+    @media (max-width:780px) { .nav a:not(.demo) { display:none; } .nav { padding:0 18px; } .hero,.scene,.scene.reverse { display:block; padding:72px 24px; min-height:auto; } .hero-art { height:460px; margin-top:36px; } .hero-art .cat { width:auto; height:360px; right:0; } .orb { width:350px; } .scene .copy { padding-bottom:34px; } .screen { min-height:350px; } h1 { letter-spacing:-2.5px; } }
+    .hero-art { isolation:isolate; } .hero-art .cat { z-index:4; cursor:pointer; transition:transform .28s ease, filter .28s ease; outline:none; } .hero-art .cat:hover, .hero-art .cat:focus { transform:translateY(-8px) scale(1.035); filter:drop-shadow(0 30px 20px #2877f572); } .pulse-layer { position:absolute; inset:-130px; pointer-events:none; z-index:3; overflow:visible; } .hero-art::before, .hero-art::after { content:""; position:absolute; z-index:2; left:67%; top:51%; width:102px; height:102px; border:2px solid #48a3ff; border-radius:50%; opacity:0; pointer-events:none; } .hero-art::after { width:54px; height:54px; border-color:#87edf2; } .hero-art.pulsing::before { animation:cat-wave 1.25s cubic-bezier(.12,.7,.23,1) both; } .hero-art.pulsing::after { animation:cat-wave .9s .1s cubic-bezier(.12,.7,.23,1) both; } .pulse-dot { position:absolute; display:grid; place-items:center; color:#2877f5; font-size:var(--size); line-height:1; text-shadow:0 0 14px #66c8ff; animation:cat-spark .95s var(--delay) cubic-bezier(.18,.76,.28,1) both; } .pulse-dot:nth-child(3n) { color:#7eeaf1; } .pulse-dot:nth-child(4n) { color:#ffdd62; } @keyframes cat-wave { 0% { opacity:.86; transform:translate(-50%,-50%) scale(.15); } 100% { opacity:0; transform:translate(-50%,-50%) scale(6.4); } } @keyframes cat-spark { 0% { opacity:0; transform:translate(-50%,-50%) scale(.25) rotate(0deg); } 15% { opacity:1; } 100% { opacity:0; transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.15) rotate(160deg); } } @media (prefers-reduced-motion:reduce) { .hero-art .cat, .hero-art .cat:hover, .hero-art .cat:focus { transition:none; transform:none; } .pulse-layer, .hero-art::before, .hero-art::after { display:none; } }
+    .vacancy-showcase { min-height:480px; padding:28px 0; border:0; border-radius:0; background:transparent; box-shadow:none; overflow:visible; isolation:isolate; } .vacancy-decor { position:absolute; z-index:0; width:142%; height:100%; max-width:none; left:-21%; top:0; object-fit:contain; pointer-events:none; } .vacancy-form { position:relative; z-index:1; width:78%; min-width:520px; margin:0 auto; padding:26px 30px 24px; background:#fff; border:2px solid #101d3b; border-radius:26px; box-shadow:0 15px 0 #101d3b12; color:#101d3b; } .vacancy-form-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:21px; } .vacancy-form-head h3 { margin:0; font-size:clamp(25px,2.5vw,38px); letter-spacing:-1.5px; } .workhere-ai { display:inline-flex; align-items:center; gap:7px; padding:9px 13px; border-radius:999px; background:#e8f1ff; color:#1670eb; font-weight:800; white-space:nowrap; } .workhere-ai::before { content:"✦"; font-size:18px; } .vacancy-fields { display:grid; grid-template-columns:1.6fr 1fr; gap:14px; margin-bottom:15px; } .vacancy-field { display:grid; gap:7px; font-size:13px; font-weight:800; } .vacancy-input { display:flex; align-items:center; min-height:49px; padding:10px 13px; border:2px solid #b8d4ff; border-radius:13px; background:#fff; color:#202b45; font-size:14px; font-weight:500; } .vacancy-field:last-child .vacancy-input::after { content:"⌄"; margin-left:auto; color:#457ddd; font-size:20px; } .ai-generator { padding:17px; border-radius:19px; background:linear-gradient(135deg,#e8f4ff,#e8edff); } .ai-generator strong { display:block; margin-bottom:10px; font-size:17px; } .generator-row { display:flex; gap:11px; } .generator-row .vacancy-input { flex:1; background:#fff; } .generator-button,.create-button { border:0; border-radius:14px; padding:0 20px; min-height:49px; background:#1670eb; color:white; font:800 15px/1 Arial,Helvetica,sans-serif; box-shadow:inset 0 -3px #005bcf; } .vacancy-description { margin-top:14px; padding:16px; border-radius:19px; background:linear-gradient(135deg,#f0ecff,#e7eaff); } .vacancy-description h4 { margin:0 0 13px; font-size:17px; } .description-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; } .description-card { min-height:132px; padding:13px; border-radius:15px; background:#fff; box-shadow:0 7px 18px #52628b12; } .description-card b { display:block; margin-bottom:9px; font-size:13px; } .description-card b::before { display:inline-grid; place-items:center; width:27px; height:27px; margin-right:7px; border-radius:50%; background:#ffe3dc; content:"✓"; } .description-card:nth-child(2) b::before { background:#e9e2ff; content:"◇"; } .description-card:nth-child(3) b::before { background:#d7faea; content:"▣"; } .description-card span { display:block; margin:4px 0; padding-left:12px; font-size:12px; line-height:1.15; position:relative; } .description-card span::before { content:""; position:absolute; left:0; top:.42em; width:5px; height:5px; border-radius:50%; background:#1670eb; } .create-row { display:flex; justify-content:flex-end; margin-top:15px; } .create-button { min-width:145px; } @media (max-width:780px) { .vacancy-showcase { min-height:0; padding:0; } .vacancy-decor { display:none; } .vacancy-form { width:100%; min-width:0; padding:20px 16px; border-radius:19px; } .vacancy-form-head { align-items:flex-start; flex-direction:column; } .vacancy-fields,.description-cards { grid-template-columns:1fr; } .generator-row { flex-direction:column; } .generator-button { min-height:46px; } .description-card { min-height:0; } }
+    .scene.vacancy-stage { width:calc(100% - 64px); max-width:1510px; min-height:500px; grid-template-columns:minmax(680px,1.35fr) minmax(390px,.65fr); gap:96px; } .scene.vacancy-stage .copy { position:relative; z-index:3; max-width:480px; margin-left:26px; padding-left:34px; } .scene.vacancy-stage .screen { min-width:0; } .scene.vacancy-stage .vacancy-showcase { min-height:430px; padding:12px 0; overflow:hidden; } .scene.vacancy-stage .vacancy-decor { width:112%; height:100%; left:-6%; } .scene.vacancy-stage .vacancy-form { width:82%; min-width:0; padding:21px 24px 18px; border-radius:24px; } .scene.vacancy-stage .vacancy-form-head { margin-bottom:15px; } .scene.vacancy-stage .vacancy-fields { margin-bottom:11px; } .scene.vacancy-stage .ai-generator { padding:13px; } .scene.vacancy-stage .vacancy-description { margin-top:11px; padding:12px; } .scene.vacancy-stage .description-card { min-height:0; padding:10px; } .scene.vacancy-stage .description-card span { font-size:11px; } .scene.vacancy-stage .create-row { margin-top:11px; } @media (max-width:1200px) { .scene.vacancy-stage { grid-template-columns:minmax(590px,1.25fr) minmax(330px,.75fr); gap:42px; } .scene.vacancy-stage .copy { margin-left:0; padding-left:0; } } @media (max-width:780px) { .scene.vacancy-stage { display:block; width:calc(100% - 32px); min-height:0; } .scene.vacancy-stage .vacancy-showcase { overflow:visible; } .scene.vacancy-stage .vacancy-decor { display:none; } .scene.vacancy-stage .copy { margin-top:32px; padding-left:0; } }
+    .scene.vacancy-stage { width:calc(100% - 64px); max-width:1620px; min-height:390px; grid-template-columns:minmax(720px,1.1fr) minmax(500px,.9fr); gap:78px; } .scene.vacancy-stage .copy { align-self:center; z-index:3; max-width:610px; margin:0; padding:0; } .scene.vacancy-stage .copy h2 { font-size:clamp(40px,3.55vw,58px); } .scene.vacancy-stage .vacancy-showcase { min-height:350px; padding:0; overflow:visible; } .scene.vacancy-stage .vacancy-decor { width:100%; height:100%; left:-12%; top:0; } .scene.vacancy-stage .vacancy-form { width:84%; min-width:0; padding:28px 40px 30px; border-radius:28px; } .scene.vacancy-stage .vacancy-form-head { margin-bottom:22px; } .scene.vacancy-stage .vacancy-fields { margin-bottom:20px; } .scene.vacancy-stage .ai-generator { padding:20px 22px; border-radius:24px; } .scene.vacancy-stage .ai-generator strong { font-size:20px; } .scene.vacancy-stage .generator-row .vacancy-input { min-height:64px; font-size:16px; } .scene.vacancy-stage .generator-button { min-width:200px; min-height:64px; font-size:17px; } @media (max-width:1200px) { .scene.vacancy-stage { grid-template-columns:minmax(590px,1.1fr) minmax(400px,.9fr); gap:44px; } .scene.vacancy-stage .copy { max-width:520px; } } @media (max-width:780px) { .scene.vacancy-stage .vacancy-form { width:100%; padding:20px 16px; } .scene.vacancy-stage .vacancy-decor { display:none; } .scene.vacancy-stage .generator-row .vacancy-input,.scene.vacancy-stage .generator-button { min-height:48px; } }
+    .scene.vacancy-stage .copy .marker { padding:0; background:none; color:#D0C7FC; } .scene.vacancy-stage .step { color:#101d3b; font-size:16px; } .scene.vacancy-stage .step span { background:linear-gradient(transparent 53%, #D0C7FC 53% 90%, transparent 90%); padding:0 .08em; }
+    .scene.vacancy-stage .vacancy-showcase.vacancy-image-showcase { position:relative; min-height:0; padding:0; overflow:visible; } .vacancy-image-showcase .vacancy-card { display:block; width:112%; height:auto; max-width:none; margin-left:-12%; }
+    .scene.chat-stage .shape { display:none; } .scene.chat-stage .copy { transform:translateX(-28px); } .scene.chat-stage .copy .marker { padding:0; background:none; color:#EF6B96; } .scene.chat-stage .step { color:#101d3b; font-size:16px; } .scene.chat-stage .step span { padding:0 .08em; background:linear-gradient(transparent 53%, #EF6B96 53% 90%, transparent 90%); } .scene.chat-stage .chat-image-showcase { position:relative; min-height:clamp(420px,36vw,590px); padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; overflow:visible; } .chat-image-showcase .chat-dialog-card { position:absolute; top:0; right:-50%; display:block; width:min(148%, 910px); height:auto; max-width:none; } .chat-image-showcase .phone-cat { position:absolute; z-index:2; bottom:1%; left:-28%; display:block; width:56%; height:auto; max-width:none; filter:drop-shadow(0 13px 12px #1c4c9b2b); } .scene.search-stage .copy .marker { padding:0; background:none; color:#EF6B96; } .scene.search-stage .step { color:#101d3b; font-size:16px; } .scene.search-stage .step span { padding:0 .08em; background:linear-gradient(transparent 53%, #EF6B96 53% 90%, transparent 90%); } .scene.search-stage .search-card-showcase { min-height:0; padding:0; border:0; border-radius:0; background:transparent; box-shadow:none; overflow:visible; } .search-card-showcase .search-card { display:block; width:115%; height:auto; max-width:none; margin-left:-10%; } @media (max-width:780px) { .scene.chat-stage .copy { transform:none; } .scene.chat-stage .chat-image-showcase { min-height:350px; margin-left:0; } .chat-image-showcase .chat-dialog-card { right:-2%; width:106%; } .chat-image-showcase .phone-cat { bottom:-1%; left:-6%; width:47%; } .search-card-showcase .search-card { width:100%; margin-left:0; } }
+    .scene.database-stage .copy .marker { padding: 0; background: none; color: #75DFA5; }
+    .scene.database-stage .step { color: #101d3b; font-size: 16px; }
+    .scene.database-stage .step span { padding: 0 .08em; background: linear-gradient(transparent 53%, #75DFA5 53% 90%, transparent 90%); }
+    .scene.database-stage .database-card-showcase { min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
+    .database-card-showcase .database-card { display: block; width: 115%; height: auto; max-width: none; margin-left: -10%; }
+    @media (max-width: 780px) { .database-card-showcase .database-card { width: 100%; margin-left: 0; } }
+    .scene.offer-stage .copy .marker { padding: 0; background: none; color: #156FF3; }
+    .scene.offer-stage .step { color: #101d3b; font-size: 16px; }
+    .scene.offer-stage .step span { padding: 0 .08em; background: linear-gradient(transparent 53%, #156FF3 53% 90%, transparent 90%); }
+    .scene.offer-stage .offer-card-showcase { min-height: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
+    .offer-card-showcase .offer-card { display: block; width: 115%; height: auto; max-width: none; margin-left: -10%; }
+    @media (max-width: 780px) { .offer-card-showcase .offer-card { width: 100%; margin-left: 0; } }
+  </style>
+  <style>
+    .scene.chat-stage .copy h2 { color: #101d3b; }
+    .scene.chat-stage .copy .marker { color: #EF6B96; }
+    .scene.chat-stage .step span { background: linear-gradient(transparent 53%, #F6A7BF 53% 90%, transparent 90%); }
+  </style>
+  <style>
+    .scene.search-stage .copy .marker { color: #FED875; }
+    .scene.search-stage .step span { background: linear-gradient(transparent 53%, #FED875 53% 90%, transparent 90%); }
+  </style>
+  <style>
+    .scene.database-stage .copy .marker { color: #BFEA9C; }
+    .scene.database-stage .step span { background: linear-gradient(transparent 53%, #BFEA9C 53% 90%, transparent 90%); }
+
+    .chat-image-showcase .chat-dialog-card { right: -10%; width: 115%; }
+    .chat-image-showcase .phone-cat { left: -46%; width: 42%; }
+    @media (max-width: 780px) {
+      .chat-image-showcase .chat-dialog-card { right: 0; width: 100%; }
+      .chat-image-showcase .phone-cat { left: -34%; width: 34%; }
+    }
+  </style>
+  <style>
+    .scene.vacancy-stage .copy .marker { color: #B9ADF7; }
+
+    @keyframes gentle-sway {
+      0%, 100% { transform: rotate(-1.2deg) translateY(0); }
+      50% { transform: rotate(1.2deg) translateY(-7px); }
+    }
+    .scene .screen > img {
+      animation: gentle-sway 7s ease-in-out infinite;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    .scene .step {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 560ms ease, transform 560ms ease;
+    }
+    .scene .step::after {
+      content: "✓";
+      position: absolute;
+      top: 50%;
+      left: 7px;
+      z-index: 1;
+      color: #101d3b;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+      opacity: 0;
+      transform: translateY(-50%) scale(.45);
+      transition: opacity 560ms ease, transform 560ms ease;
+      pointer-events: none;
+    }
+    .scene .step.is-visible { opacity: 1; transform: translateY(0); }
+    .scene .step.is-visible::after { opacity: 1; transform: translateY(-50%) scale(1); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scene .screen > img { animation: none; }
+      .scene .step, .scene .step::after { transition: none; }
+      .scene .step { opacity: 1; transform: none; }
+      .scene .step::after { opacity: 1; transform: translateY(-50%) scale(1); }
+    }
+  </style>
+  <style>
+    .scene .step { position: relative; }
+  </style>
+  <style>
+    .scene.offer-stage .copy .marker { color: #5C9EFF; }
+    .scene.offer-stage .step span { background: linear-gradient(transparent 53%, #5C9EFF 53% 90%, transparent 90%); }
+    .scene.database-stage .copy .marker { color: #A4D57B; }
+    .scene.search-stage .copy .marker { color: #EBBE49; }
+  </style>
+  <style>
+    .chat-image-showcase .chat-dialog-card { top: clamp(56px, 5vw, 84px); }
+    @media (max-width: 780px) { .chat-image-showcase .chat-dialog-card { top: 0; } }
+  </style>
+  <style>
+    .scene.offer-stage .step span { background: linear-gradient(transparent 53%, #81B3FD 53% 90%, transparent 90%); }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="logo">WorkHere</div><div><a href="#story">Возможности ИИ</a><a href="#story">Как это работает</a><a class="demo" href="#finish">Заявка на демо</a></div></nav>
+  <main>
+    <section class="hero">
+      <div class="dots"></div><div class="shape"></div>
+      <div><div class="eyebrow">ИИ-инструменты WorkHere</div><h1>Один рабочий день рекрутера. <span class="marker">Пять ИИ-помощников.</span></h1><p class="intro">От первой строки вакансии до готового оффера — WorkHere берёт на себя рутину, чтобы вы сосредоточились на людях.</p><a class="button" href="#story">Начать рабочий день&nbsp; →</a></div>
+      <div class="hero-art"><div class="orb"></div><div class="orb two"></div><img class="cat" src="hero-cat.svg" alt="Кот WorkHere с символом ИИ" tabindex="0" role="button" aria-label="Запустить ИИ-пульс"><div class="pulse-layer" aria-hidden="true"></div><div class="float-card two">ИИ рядом<br>на каждом этапе&nbsp;↘</div></div>
+    </section>
+    <div id="story"></div>
+    <section class="scene reverse vacancy-stage">
+      <div class="shape"></div><div class="copy"><div class="step"><span>09:00 — создаём вакансию</span></div><h2>ИИ от WorkHere <span class="marker">напишет описание вакансии</span> за вас</h2></div>
+      <div class="screen vacancy-showcase vacancy-image-showcase"><img class="vacancy-card" src="vacancy-card.png" alt="Создание вакансии"></div><div class="route"></div>
+    </section>
+    <section class="scene chat-stage">
+      <div class="shape"></div><div class="copy"><div class="step"><span>10:15 — общаемся с кандидатами</span></div><h2>Чат-бот <span class="marker">общается</span> с кандидатами <span class="marker">на hh.ru</span></h2><p>Он задаёт кандидатам нужные вопросы на hh.ru, учитывает ход диалога и передаёт вам тех, с кем стоит продолжить общение.</p></div>
+      <div class="screen chat-image-showcase"><img class="chat-dialog-card" src="chat-dialog-card-v2.png" alt="Диалог с кандидатом"></div><div class="route"></div>
+    </section>
+    <section class="scene reverse search-stage">
+      <div class="shape"></div><div class="copy"><div class="step"><span>11:00 — ищем в холодную</span></div><h2>Не листайте сотни резюме. <span class="marker">Спросите ИИ</span></h2><p>Введите запрос в свободной форме — ИИ-поиск найдёт релевантных кандидатов на hh.ru и Авито, проанализирует резюме и сразу объяснит свой выбор.</p></div>
+      <div class="screen search-card-showcase"><img class="search-card" src="search-card-pink.png" alt="Поиск кандидатов"></div><div class="route"></div>
+    </section>
+    <section class="scene database-stage">
+      <div class="shape"></div><div class="copy"><div class="step"><span>13:30 — работаем со своей базой</span></div><h2>Нужный кандидат уже есть. <span class="marker">Найдём его быстро</span></h2><p>Ищите по базе простым запросом или включайте быстрый поиск по новым откликам. ИИ выделит тех, кто действительно подходит вакансии.</p></div>
+      <div class="screen database-card-showcase"><img class="database-card" src="database-card.png" alt="База кандидатов"></div><div class="route"></div>
+    </section>
+    <section class="scene reverse offer-stage">
+      <div class="shape"></div><div class="copy"><div class="step"><span>16:00 — делаем оффер</span></div><h2>Лучший кандидат найден.<br><span class="marker">Оффер&nbsp;уже<br>сформирован</span></h2><p>ИИ берёт данные из вакансии и помогает быстро подготовить понятное предложение для выбранного кандидата. Остаётся проверить детали и отправить.</p></div>
+      <div class="screen offer-card-showcase"><img class="offer-card" src="offer-card.png" alt="Предложение кандидату"></div>
+    </section>
+    <section id="finish" class="ending"><div class="dots"></div><div><div class="eyebrow">Рабочий день завершён</div><h2>Пока ИИ работает с рутиной, <span class="marker">вы строите сильную команду.</span></h2><p>Узнайте как ИИ-инструменты WorkHere ускорят ваш найм</p><a class="button" href="#">Записаться на демо&nbsp; →</a></div></section>
+  </main>
+  <script>
+    (() => {
+      const cat = document.querySelector('.hero-art .cat');
+      const art = document.querySelector('.hero-art');
+      const layer = document.querySelector('.pulse-layer');
+      if (!cat || !art || !layer) return;
+
+      let clearTimer;
+      const launchPulse = () => {
+        clearTimeout(clearTimer);
+        art.classList.remove('pulsing');
+        void art.offsetWidth;
+        art.classList.add('pulsing');
+        layer.replaceChildren();
+        const originX = cat.offsetLeft + cat.offsetWidth / 2;
+        const originY = cat.offsetTop + cat.offsetHeight / 2;
+        const symbols = ['✦', '•', '✧', '·'];
+        for (let index = 0; index < 24; index += 1) {
+          const angle = Math.random() * Math.PI * 2;
+          const distance = 100 + Math.random() * 245;
+          const spark = document.createElement('span');
+          spark.className = 'pulse-dot';
+          spark.textContent = symbols[index % symbols.length];
+          spark.style.left = `${originX}px`;
+          spark.style.top = `${originY}px`;
+          spark.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+          spark.style.setProperty('--y', `${Math.sin(angle) * distance * .72}px`);
+          spark.style.setProperty('--size', `${12 + Math.random() * 20}px`);
+          spark.style.setProperty('--delay', `${Math.random() * .16}s`);
+          layer.append(spark);
+        }
+        clearTimer = setTimeout(() => {
+          art.classList.remove('pulsing');
+          layer.replaceChildren();
+        }, 1250);
+      };
+      cat.addEventListener('mouseenter', launchPulse);
+      cat.addEventListener('focus', launchPulse);
+      cat.addEventListener('click', launchPulse);
+      cat.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          launchPulse();
+        }
+      });
+    })();
+  </script>
+  <script>
+    document.querySelectorAll('.scene .step').forEach((step) => {
+      const scene = step.closest('.scene');
+      if (!scene || !('IntersectionObserver' in window)) {
+        step.classList.add('is-visible');
+        return;
+      }
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            step.classList.add('is-visible');
+            currentObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      observer.observe(scene);
+    });
+  </script>
+</body>
+</html>
