@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Интеграции — WorkHere</title>
     <style>
-      @font-face { font-family: "Exo 2"; src: url("Шрифты/exo2_0_regular.otf") format("opentype"); font-weight: 400; }
-      @font-face { font-family: "Exo 2"; src: url("Шрифты/exo2_0_bold.otf") format("opentype"); font-weight: 700; }
-      @font-face { font-family: "Exo 2"; src: url("Шрифты/exo2_0_extrabold.otf") format("opentype"); font-weight: 800; }
+      @font-face { font-family: "Exo 2"; src: url("assets/fonts/exo2_0_regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Exo 2"; src: url("assets/fonts/exo2_0_bold.otf") format("opentype"); font-weight: 700; }
+      @font-face { font-family: "Exo 2"; src: url("assets/fonts/exo2_0_extrabold.otf") format("opentype"); font-weight: 800; }
 
       :root {
         --ink: #0c1630;
@@ -183,7 +183,7 @@
 
       /* Светлая композиция первого экрана. */
       .hero { min-height: 760px; color: var(--ink); background: var(--cream); }
-      .hero::before { z-index: 0; inset: 18% 12% 12% 43%; opacity: 1; background: url("Интеграции/hero-blue-plaque.png") center / 100% 100% no-repeat; }
+      .hero::before { z-index: 0; inset: 18% 12% 12% 43%; opacity: 1; background: url("assets/images/hero-blue-plaque.png") center / 100% 100% no-repeat; }
       .hero::after { z-index: 0; inset: 0; opacity: 1; background: radial-gradient(circle at 49% 20%, rgba(104,223,233,.13) 0 2px, transparent 3px), radial-gradient(circle at 86% 16%, rgba(12,22,48,.82) 0 1px, transparent 2px), radial-gradient(circle at 42% 83%, rgba(12,22,48,.82) 0 1px, transparent 2px); background-size: 210px 190px, 240px 210px, 190px 230px; }
       .hero-frame { min-height: 760px; z-index: 1; padding-top: 88px; }
       .hero .eyebrow { color: var(--ink); }
@@ -217,7 +217,7 @@
       .solar-planet::before { border-color: var(--ink); }
       .solar-ring-front { border-bottom-color: var(--ink); }
       .info-panel { position: relative; isolation: isolate; border: 2px solid var(--ink); background: rgba(255,255,255,.94); box-shadow: 0 20px 42px rgba(35,67,96,.14); }
-      .info-panel::before { content: ""; position: absolute; z-index: 1; width: 272px; height: 238px; left: 50%; top: -198px; pointer-events: none; background: url("Интеграции/cat-wave-transparent-v2.png") center / contain no-repeat; transform: translateX(-50%); filter: drop-shadow(0 15px 14px rgba(35,67,96,.16)); }
+      .info-panel::before { content: ""; position: absolute; z-index: 1; width: 272px; height: 238px; left: 50%; top: -198px; pointer-events: none; background: url("assets/images/cat-wave-transparent-v2.png") center / contain no-repeat; transform: translateX(-50%); filter: drop-shadow(0 15px 14px rgba(35,67,96,.16)); }
       .info-panel > * { position: relative; z-index: 2; }
       .info-panel .cta { color: #fff; background: #35a460; box-shadow: 0 12px 22px rgba(53,164,96,.24); }
       .info-panel .cta:hover, .info-panel .cta:focus-visible { color: #fff; background: #2c8d51; box-shadow: 0 16px 26px rgba(53,164,96,.34); }
@@ -300,7 +300,7 @@
   <body>
     <header class="site-header">
       <a class="brand" href="#top"><span>Work</span>Here</a>
-      <nav class="nav" aria-label="Основная навигация"><a href="#mission">Интеграции</a><a href="#jobs">Работные сайты</a><a href="#mission">Возможности</a><a href="tariffs.html">Тарифы</a></nav>
+      <nav class="nav" aria-label="Основная навигация"><a href="#mission">Интеграции</a><a href="#jobs">Работные сайты</a><a href="../Страница%20%E2%80%94%20ИИ-инструменты/">ИИ-инструменты</a><a href="../Страница%20%E2%80%94%20Тарифы/">Тарифы</a></nav>
       <div class="header-actions"><button class="demo">Заявка на демо</button><a class="login" href="#top">Войти</a></div>
     </header>
 
@@ -309,13 +309,13 @@
         <div class="hero-copy"><p class="eyebrow">Вселенная WorkHere</p><h1 id="hero-title"><span>Интеграции</span><br>для эффективного найма</h1><p>Подключайте сервисы, которыми уже пользуется ваша команда, и управляйте наймом в одном окне.</p><button class="cta">Смотреть интеграции</button></div>
         <div class="orbit-system" aria-label="Категории интеграций">
           <div class="orbit one"></div><div class="orbit two"></div><div class="orbit three"></div>
-          <img class="cat" src="Интеграции/workhere-cat-astronaut.png" alt="Кот WorkHere в скафандре" />
+          <img class="cat" src="assets/images/workhere-cat-astronaut.png" alt="Кот WorkHere в скафандре" />
           <span class="cat-speech">Нажми<br>на планету</span>
-          <button class="planet messenger" data-category="messenger" aria-label="Мессенджеры"><img class="hero-planet-art" src="Интеграции/Планеты/messenger.png" alt=""><small>Мессенджеры</small></button>
-          <button class="planet mail" data-category="mail" aria-label="Почта"><img class="hero-planet-art" src="Интеграции/Планеты/mail.png" alt=""><small>Почта</small></button>
-          <button class="planet calendar" data-category="calendar" aria-label="Календари"><img class="hero-planet-art" src="Интеграции/Планеты/calendar.png" alt=""><small>Календари</small></button>
-          <button class="planet phone" data-category="phone" aria-label="Телефония"><img class="hero-planet-art" src="Интеграции/Планеты/phone.png" alt=""><small>Телефония</small></button>
-          <button class="planet crm" data-category="crm" aria-label="CRM и ATS"><img class="hero-planet-art" src="Интеграции/Планеты/crm.png" alt=""><small>CRM и ATS</small></button>
+          <button class="planet messenger" data-category="messenger" aria-label="Мессенджеры"><img class="hero-planet-art" src="assets/images/Планеты/messenger.png" alt=""><small>Мессенджеры</small></button>
+          <button class="planet mail" data-category="mail" aria-label="Почта"><img class="hero-planet-art" src="assets/images/Планеты/mail.png" alt=""><small>Почта</small></button>
+          <button class="planet calendar" data-category="calendar" aria-label="Календари"><img class="hero-planet-art" src="assets/images/Планеты/calendar.png" alt=""><small>Календари</small></button>
+          <button class="planet phone" data-category="phone" aria-label="Телефония"><img class="hero-planet-art" src="assets/images/Планеты/phone.png" alt=""><small>Телефония</small></button>
+          <button class="planet crm" data-category="crm" aria-label="CRM и ATS"><img class="hero-planet-art" src="assets/images/Планеты/crm.png" alt=""><small>CRM и ATS</small></button>
         </div>
         <span class="hero-doodle doodle-1">✦</span><span class="hero-doodle doodle-2">✧</span><span class="hero-doodle doodle-3">✦</span>
       </div></section>
@@ -335,12 +335,12 @@
         <div class="mission">
           <div class="solar-system" aria-label="Интерактивная схема интеграций">
             <div class="orbit-line one"></div><div class="orbit-line two"></div><div class="orbit-line three"></div><div class="orbit-line four"></div><div class="orbit-line five"></div>
-            <div class="workhere-planet" role="img" aria-label="WorkHere"><img class="planet-art workhere-art" src="Интеграции/Планеты/workhere.png" alt=""></div>
-            <button class="solar-planet messenger" data-category="messenger" data-label="Мессенджеры" aria-label="Мессенджеры"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/messenger.png" alt=""></button>
-            <button class="solar-planet calendar" data-category="calendar" data-label="Календари" aria-label="Календари"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/calendar.png" alt=""></button>
-            <button class="solar-planet mail" data-category="mail" data-label="Почта" aria-label="Почта"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/mail.png" alt=""></button>
-            <button class="solar-planet crm" data-category="crm" data-label="CRM и ATS" aria-label="CRM и ATS"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/crm.png" alt=""></button>
-            <button class="solar-planet phone" data-category="phone" data-label="Телефония" aria-label="Телефония"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="Интеграции/Планеты/phone.png" alt=""></button>
+            <div class="workhere-planet" role="img" aria-label="WorkHere"><img class="planet-art workhere-art" src="assets/images/Планеты/workhere.png" alt=""></div>
+            <button class="solar-planet messenger" data-category="messenger" data-label="Мессенджеры" aria-label="Мессенджеры"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="assets/images/Планеты/messenger.png" alt=""></button>
+            <button class="solar-planet calendar" data-category="calendar" data-label="Календари" aria-label="Календари"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="assets/images/Планеты/calendar.png" alt=""></button>
+            <button class="solar-planet mail" data-category="mail" data-label="Почта" aria-label="Почта"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="assets/images/Планеты/mail.png" alt=""></button>
+            <button class="solar-planet crm" data-category="crm" data-label="CRM и ATS" aria-label="CRM и ATS"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="assets/images/Планеты/crm.png" alt=""></button>
+            <button class="solar-planet phone" data-category="phone" data-label="Телефония" aria-label="Телефония"><span class="solar-ring-front" aria-hidden="true"></span><img class="planet-art" src="assets/images/Планеты/phone.png" alt=""></button>
           </div>
           <aside class="info-panel" aria-live="polite">
             <h3 id="focusTitle">Мессенджеры</h3><p id="focusText">Все диалоги с кандидатами в одном окне.</p>
@@ -356,15 +356,15 @@
 
     <script>
       const categories = {
-        messenger: { title: 'Мессенджеры', text: 'Все диалоги с кандидатами в одном окне.', detail: 'Общайтесь с кандидатами там, где им удобно. Переписка сохраняется в карточке кандидата.', icon: '☏', color: '#68dfe9', logos: ['Интеграции/Мессенджеры/Telegram.png','Интеграции/Мессенджеры/WhatsApp.png','Интеграции/Мессенджеры/MAX.webp','Интеграции/Мессенджеры/Viber.png'] },
-        mail: { title: 'Почта', text: 'Переписка сохраняется прямо в карточке кандидата.', detail: 'Вся почтовая переписка по кандидату остаётся в одном месте — в WorkHere.', icon: '✉', color: '#ffe16c', logos: ['Интеграции/Почты/e-mail.png','Интеграции/Почты/Outlook.png','Интеграции/Почты/Yandex.png','Интеграции/Почты/google.png'] },
-        calendar: { title: 'Календари', text: 'Синхронизируйте встречи и создавайте ссылки на созвоны.', detail: 'Планируйте интервью, синхронизируйте календари и приглашайте участников в несколько кликов.', icon: '▣', color: '#f5a2cf', logos: ['Интеграции/Календари/Google календарь.png','Интеграции/Календари/Яндекс Календарь.jpg','Интеграции/Яндекс телемост.png'] },
-        phone: { title: 'Телефония', text: 'Звоните из WorkHere и сохраняйте историю разговоров.', detail: 'Звоните кандидатам прямо из системы, расшифровывайте и оценивайте важные звонки.', icon: '☎', color: '#6cc3ff', logos: ['Интеграции/Телефония/800px-T2_(Tele2)_logo_2024.svg.png','Интеграции/Телефония/Мегафон.webp','Интеграции/Телефония/anons104-1.jpg','Интеграции/Телефония/Mango office.png','Интеграции/Телефония/Sipuni.png'] },
-        crm: { title: 'CRM и ATS', text: 'Передавайте кандидатов в привычные системы одним кликом.', detail: 'Соединяйте WorkHere с вашей CRM или ATS и сохраняйте единый процесс работы с кандидатами.', icon: '◉', color: '#929cff', logos: ['Интеграции/CRM и ATS/Битрикс 24.png','Интеграции/CRM и ATS/1C.jpg','Интеграции/CRM и ATS/АМО.png'] }
+        messenger: { title: 'Мессенджеры', text: 'Все диалоги с кандидатами в одном окне.', detail: 'Общайтесь с кандидатами там, где им удобно. Переписка сохраняется в карточке кандидата.', icon: '☏', color: '#68dfe9', logos: ['assets/images/Мессенджеры/Telegram.png','assets/images/Мессенджеры/WhatsApp.png','assets/images/Мессенджеры/MAX.webp','assets/images/Мессенджеры/Viber.png'] },
+        mail: { title: 'Почта', text: 'Переписка сохраняется прямо в карточке кандидата.', detail: 'Вся почтовая переписка по кандидату остаётся в одном месте — в WorkHere.', icon: '✉', color: '#ffe16c', logos: ['assets/images/Почты/e-mail.png','assets/images/Почты/Outlook.png','assets/images/Почты/Yandex.png','assets/images/Почты/google.png'] },
+        calendar: { title: 'Календари', text: 'Синхронизируйте встречи и создавайте ссылки на созвоны.', detail: 'Планируйте интервью, синхронизируйте календари и приглашайте участников в несколько кликов.', icon: '▣', color: '#f5a2cf', logos: ['assets/images/Календари/Google календарь.png','assets/images/Календари/Яндекс Календарь.jpg','assets/images/Яндекс телемост.png'] },
+        phone: { title: 'Телефония', text: 'Звоните из WorkHere и сохраняйте историю разговоров.', detail: 'Звоните кандидатам прямо из системы, расшифровывайте и оценивайте важные звонки.', icon: '☎', color: '#6cc3ff', logos: ['assets/images/Телефония/800px-T2_(Tele2)_logo_2024.svg.png','assets/images/Телефония/Мегафон.webp','assets/images/Телефония/anons104-1.jpg','assets/images/Телефония/Mango office.png','assets/images/Телефония/Sipuni.png'] },
+        crm: { title: 'CRM и ATS', text: 'Передавайте кандидатов в привычные системы одним кликом.', detail: 'Соединяйте WorkHere с вашей CRM или ATS и сохраняйте единый процесс работы с кандидатами.', icon: '◉', color: '#929cff', logos: ['assets/images/CRM и ATS/Битрикс 24.png','assets/images/CRM и ATS/1C.jpg','assets/images/CRM и ATS/АМО.png'] }
       };
       const title = document.getElementById('focusTitle'); const text = document.getElementById('focusText'); const detail = document.querySelector('.info-description'); const logoWrap = document.getElementById('orbitLogos'); const focusCta = document.getElementById('focusCta');
       function getLogoClass(src) { if (src.includes('MAX')) return 'logo-max'; if (src.includes('WhatsApp')) return 'logo-whatsapp'; return ''; }
-      function selectCategory(key, shouldScroll = true) { const item = categories[key]; title.textContent = item.title; text.textContent = item.text; detail.textContent = item.detail; focusCta.textContent = 'Заказать демо'; logoWrap.classList.toggle('messenger-logo-strip', key === 'messenger'); logoWrap.classList.toggle('mail-logo-strip', key === 'mail'); logoWrap.classList.toggle('phone-logo-strip', key === 'phone'); logoWrap.classList.toggle('calendar-logo-strip', key === 'calendar'); logoWrap.classList.toggle('crm-logo-strip', key === 'crm'); logoWrap.innerHTML = key === 'calendar' ? `<span class="calendar-logo google-calendar"><img src="Интеграции/Календари/Google календарь.png" alt="Google Календарь"></span><span class="calendar-logo yandex-calendar" aria-label="Яндекс Календарь"><span>Y</span></span><span class="calendar-logo exchange-calendar"><img src="Интеграции/Календари/Microsoft-Exchange.jpg" alt="Microsoft Exchange"></span><span class="calendar-logo outlook-calendar"><img src="Интеграции/Календари/outlook.png" alt="Outlook"></span>` : key === 'phone' ? `<span class="phone-service phone-t2"><img src="Интеграции/Телефония/800px-T2_(Tele2)_logo_2024.svg.png" alt="T2"></span><span class="phone-service phone-megafon"><img src="Интеграции/Телефония/Мегафон.webp" alt="МегаФон"></span><span class="phone-service phone-beeline"><img src="Интеграции/Телефония/anons104-1.jpg" alt="Билайн"></span><span class="phone-service phone-mango"><img src="Интеграции/Телефония/Mango office.png" alt="Mango Office"></span><span class="phone-service phone-sipuni"><img src="Интеграции/Телефония/Sipuni.png" alt="Sipuni"></span>` : key === 'crm' ? `<span class="crm-logo crm-bitrix"><img src="Интеграции/CRM и ATS/Битрикс 24.png" alt="Битрикс24"></span><span class="crm-logo crm-onec"><img src="Интеграции/CRM и ATS/1C.jpg" alt="1С"></span><span class="crm-logo crm-amo"><img src="Интеграции/CRM и ATS/АМО.png" alt="amoCRM"></span>` : item.logos.map((src) => `<span class="orbit-logo ${getLogoClass(src)}"><img src="${src}" alt=""></span>`).join(''); document.querySelectorAll('.solar-planet').forEach((planet) => planet.classList.toggle('is-selected', planet.dataset.category === key)); if (shouldScroll) document.querySelector('.info-panel').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      function selectCategory(key, shouldScroll = true) { const item = categories[key]; title.textContent = item.title; text.textContent = item.text; detail.textContent = item.detail; focusCta.textContent = 'Заказать демо'; logoWrap.classList.toggle('messenger-logo-strip', key === 'messenger'); logoWrap.classList.toggle('mail-logo-strip', key === 'mail'); logoWrap.classList.toggle('phone-logo-strip', key === 'phone'); logoWrap.classList.toggle('calendar-logo-strip', key === 'calendar'); logoWrap.classList.toggle('crm-logo-strip', key === 'crm'); logoWrap.innerHTML = key === 'calendar' ? `<span class="calendar-logo google-calendar"><img src="assets/images/Календари/Google календарь.png" alt="Google Календарь"></span><span class="calendar-logo yandex-calendar" aria-label="Яндекс Календарь"><span>Y</span></span><span class="calendar-logo exchange-calendar"><img src="assets/images/Календари/Microsoft-Exchange.jpg" alt="Microsoft Exchange"></span><span class="calendar-logo outlook-calendar"><img src="assets/images/Календари/outlook.png" alt="Outlook"></span>` : key === 'phone' ? `<span class="phone-service phone-t2"><img src="assets/images/Телефония/800px-T2_(Tele2)_logo_2024.svg.png" alt="T2"></span><span class="phone-service phone-megafon"><img src="assets/images/Телефония/Мегафон.webp" alt="МегаФон"></span><span class="phone-service phone-beeline"><img src="assets/images/Телефония/anons104-1.jpg" alt="Билайн"></span><span class="phone-service phone-mango"><img src="assets/images/Телефония/Mango office.png" alt="Mango Office"></span><span class="phone-service phone-sipuni"><img src="assets/images/Телефония/Sipuni.png" alt="Sipuni"></span>` : key === 'crm' ? `<span class="crm-logo crm-bitrix"><img src="assets/images/CRM и ATS/Битрикс 24.png" alt="Битрикс24"></span><span class="crm-logo crm-onec"><img src="assets/images/CRM и ATS/1C.jpg" alt="1С"></span><span class="crm-logo crm-amo"><img src="assets/images/CRM и ATS/АМО.png" alt="amoCRM"></span>` : item.logos.map((src) => `<span class="orbit-logo ${getLogoClass(src)}"><img src="${src}" alt=""></span>`).join(''); document.querySelectorAll('.solar-planet').forEach((planet) => planet.classList.toggle('is-selected', planet.dataset.category === key)); if (shouldScroll) document.querySelector('.info-panel').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       document.querySelectorAll('[data-category]').forEach((button) => button.addEventListener('click', () => selectCategory(button.dataset.category)));
       selectCategory('messenger', false);
 
